@@ -1,0 +1,198 @@
+"use client";
+
+import * as React from "react";
+import Link from "next/link";
+import {
+  ShoppingBag,
+  MapPin,
+  Search,
+  LayoutDashboard,
+  Sparkles,
+  ChevronDown,
+  Menu,
+  X,
+} from "lucide-react";
+import { useCartStore } from "@/store/use-cart-store";
+import { useUserStore } from "@/store/use-user-store";
+import { formatFCFA } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+
+export function Navbar({ onSearch }: { onSearch?: (query: string) => void }) {
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
+
+  const { items, toggleCart, getTotalItemsCount, getSubtotal } = useCartStore();
+  const { role, selectedLocation, toggleLocationModal } = useUserStore();
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const totalItems = mounted ? getTotalItemsCount() : 0;
+  const subtotal = mounted ? getSubtotal() : 0;
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setSearchQuery(val);
+    if (onSearch) onSearch(val);
+  };
+
+  return (
+    <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95 transition-all">
+      {/* Top Banner Notice */}
+      <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-700 px-4 py-1.5 text-xs text-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
+          <div className="flex items-center gap-2 overflow-hidden">
+            <span className="flex h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+            <span className="truncate font-medium">
+              🇬🇦 <strong>Nexora Gabon</strong> : Marketplace 100% connectée (Airtel Money, Moov Money, Cash)
+            </span>
+          </div>
+          <div className="hidden md:flex items-center gap-4 text-[11px] font-medium text-emerald-100">
+            <span>📞 Service Client Libreville : 077 45 89 12</span>
+            <span>⚡ Livraison sous 24h</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Header Bar */}
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        {/* Brand Logo */}
+        <div className="flex items-center gap-3">
+          <Link href="/" className="group flex items-center gap-2.5">
+            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+              <Sparkles className="w-5 h-5 text-amber-300" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl font-black tracking-tight text-slate-900 dark:text-slate-50 flex items-center gap-1">
+                NEXORA
+                <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                  GA
+                </span>
+              </span>
+              <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 -mt-0.5">
+                Marketplace du Gabon
+              </span>
+            </div>
+          </Link>
+
+          {/* Quick Location Selector (Desktop) */}
+          <button
+            onClick={toggleLocationModal}
+            className="hidden lg:flex items-center gap-2 rounded-xl border border-slate-200/80 bg-slate-50/80 px-3 py-1.5 text-xs text-slate-700 hover:border-emerald-500/50 hover:bg-emerald-50/50 transition-all dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-300 dark:hover:bg-slate-800"
+            title="Changer de ville ou quartier"
+          >
+            <div className="rounded-full bg-emerald-500/10 p-1 text-emerald-600 dark:text-emerald-400">
+              <MapPin className="w-3.5 h-3.5" />
+            </div>
+            <div className="text-left">
+              <p className="text-[10px] uppercase font-bold text-slate-400 leading-none">
+                Livraison à
+              </p>
+              <p className="font-semibold text-slate-800 dark:text-slate-100 truncate max-w-[140px]">
+                {selectedLocation.ville}, {selectedLocation.quartier}
+              </p>
+            </div>
+            <ChevronDown className="w-3 h-3 text-slate-400" />
+          </button>
+        </div>
+
+        {/* Search Bar (Desktop/Tablet) */}
+        <div className="relative hidden md:flex flex-1 max-w-lg items-center">
+          <div className="absolute left-3.5 text-slate-400 pointer-events-none">
+            <Search className="w-4 h-4" />
+          </div>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Rechercher un produit, chocolat de Kango, smartphone, artisanat..."
+            className="w-full rounded-full border border-slate-200 bg-slate-50/80 py-2 pl-10 pr-4 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100"
+          />
+        </div>
+
+        {/* Right Navigation Controls */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Dashboard Button */}
+          <Link href="/dashboard">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2 border-slate-200 hover:border-slate-300 dark:border-slate-700"
+            >
+              <LayoutDashboard className="w-4 h-4 text-emerald-600" />
+              <span className="hidden sm:inline font-semibold">Espace Démo</span>
+              <Badge variant="emerald" className="hidden xl:inline text-[10px] py-0 px-1.5 capitalize">
+                {role}
+              </Badge>
+            </Button>
+          </Link>
+
+          {/* Cart Button */}
+          <Button
+            onClick={toggleCart}
+            variant="emerald"
+            size="md"
+            className="relative gap-2 font-semibold shadow-sm"
+            aria-label="Voir le panier"
+          >
+            <div className="relative">
+              <ShoppingBag className="w-4 h-4" />
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-[10px] font-black text-slate-950 animate-scale">
+                  {totalItems}
+                </span>
+              )}
+            </div>
+            <span className="hidden sm:inline">Panier</span>
+            {subtotal > 0 && (
+              <span className="hidden md:inline font-bold border-l border-emerald-500/50 pl-2 text-xs">
+                {formatFCFA(subtotal)}
+              </span>
+            )}
+          </Button>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden rounded-xl p-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+            aria-label="Menu"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Search & Location Row */}
+      <div className="md:hidden border-t border-slate-100 bg-slate-50/70 p-3 dark:border-slate-800 dark:bg-slate-900/50 space-y-2">
+        <div className="relative w-full">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Rechercher au Gabon..."
+            className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+          />
+        </div>
+
+        <button
+          onClick={toggleLocationModal}
+          className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+        >
+          <div className="flex items-center gap-2 truncate">
+            <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+            <span className="truncate">
+              Zone : <strong>{selectedLocation.ville} ({selectedLocation.quartier})</strong>
+            </span>
+          </div>
+          <span className="text-[10px] font-semibold text-emerald-600 underline">
+            Modifier
+          </span>
+        </button>
+      </div>
+    </header>
+  );
+}
