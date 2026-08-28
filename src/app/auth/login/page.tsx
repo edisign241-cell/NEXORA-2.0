@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signInWithPassword } from "@/lib/actions/auth";
@@ -27,7 +27,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTarget = searchParams.get("redirect") || "";
@@ -292,5 +292,19 @@ export default function LoginPage() {
       <CartDrawer />
       <LocationModal />
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#f9fafb] flex items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#065f46] border-t-transparent" />
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }

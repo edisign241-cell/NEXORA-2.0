@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -8,9 +8,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Navbar } from "@/components/marketplace/navbar";
 import { CartDrawer } from "@/components/marketplace/cart-drawer";
 import { LocationModal } from "@/components/marketplace/location-modal";
-import { ShieldAlert, ArrowLeft, Store, Bike, Home, LogIn } from "lucide-react";
+import { ShieldAlert, Store, Bike, Home, LogIn } from "lucide-react";
 
-export default function UnauthorizedPage() {
+function UnauthorizedContent() {
   const searchParams = useSearchParams();
   const requiredRole = searchParams.get("required") || "autorisé";
   const currentRole = searchParams.get("current") || "client";
@@ -100,5 +100,19 @@ export default function UnauthorizedPage() {
       <CartDrawer />
       <LocationModal />
     </div>
+  );
+}
+
+export default function UnauthorizedPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#f9fafb] flex items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#065f46] border-t-transparent" />
+        </div>
+      }
+    >
+      <UnauthorizedContent />
+    </Suspense>
   );
 }
