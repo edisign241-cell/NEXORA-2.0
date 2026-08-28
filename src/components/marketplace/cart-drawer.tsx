@@ -86,14 +86,14 @@ export function CartDrawer() {
           {/* Header */}
           <div className="flex items-center justify-between border-b border-slate-200/80 px-5 py-4 dark:border-slate-800">
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50">
+              <div className="p-2 rounded-xl bg-emerald-50 text-[#065f46]">
                 <ShoppingBag className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
+                <h2 className="text-base font-black italic text-[#111827]">
                   Mon Panier Nexora
                 </h2>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-500 font-medium">
                   {items.length} {items.length > 1 ? "articles" : "article"} sélectionné{items.length > 1 ? "s" : ""}
                 </p>
               </div>
@@ -144,7 +144,7 @@ export function CartDrawer() {
                         <p className="text-[11px] text-slate-500 dark:text-slate-400">
                           {item.storeName}
                         </p>
-                        <p className="text-xs font-black text-emerald-600 dark:text-emerald-400 mt-1">
+                        <p className="text-xs font-black italic text-[#065f46] mt-1">
                           {formatFCFA(item.productPrice)}
                         </p>
                       </div>
@@ -270,9 +270,9 @@ export function CartDrawer() {
                     <span>-{formatFCFA(discountAmount)}</span>
                   </div>
                 )}
-                <div className="flex justify-between pt-2 border-t border-slate-200 dark:border-slate-800 text-sm font-black text-slate-900 dark:text-slate-100">
+                <div className="flex justify-between pt-2 border-t border-slate-200 dark:border-slate-800 text-sm font-black italic text-[#111827]">
                   <span>Total à régler</span>
-                  <span className="text-base text-emerald-600 dark:text-emerald-400">
+                  <span className="text-base font-black italic text-[#065f46]">
                     {formatFCFA(total)}
                   </span>
                 </div>

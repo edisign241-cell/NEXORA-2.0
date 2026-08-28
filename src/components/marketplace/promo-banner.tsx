@@ -15,8 +15,8 @@ export function PromoBanner() {
       title: "Livraison 100% Offerte sur Libreville & Akanda",
       subtitle: "Utilisez le code promo exclusif lors de la validation de votre panier",
       code: "NEXORA241",
-      badgeColor: "bg-emerald-500 text-white",
-      bgGradient: "from-emerald-900 via-teal-900 to-slate-900",
+      badgeColor: "bg-[#10b981] text-white",
+      bgGradient: "from-[#065f46] via-[#047857] to-[#022c22]",
       icon: <Gift className="w-5 h-5 text-amber-300" />,
     },
     {
@@ -25,9 +25,9 @@ export function PromoBanner() {
       title: "Paiement en 1 Clic via Airtel Money & Moov Money",
       subtitle: "Zéro frais de transaction sur toutes vos commandes supérieures à 10 000 FCFA",
       code: "MOBILE241",
-      badgeColor: "bg-rose-500 text-white",
-      bgGradient: "from-slate-900 via-rose-950 to-slate-900",
-      icon: <Smartphone className="w-5 h-5 text-rose-300" />,
+      badgeColor: "bg-[#d97706] text-white",
+      bgGradient: "from-[#064e3b] via-[#065f46] to-[#022c22]",
+      icon: <Smartphone className="w-5 h-5 text-amber-300" />,
     },
     {
       id: "promo-3",
@@ -35,8 +35,8 @@ export function PromoBanner() {
       title: "Coupé-Coupé & Poulet Nyembwe Chaud en 30 min",
       subtitle: "Livré directement à votre repère (carrefour, barrière ou pharmacie)",
       code: "FOOD241",
-      badgeColor: "bg-amber-500 text-slate-950",
-      bgGradient: "from-amber-950 via-slate-900 to-emerald-950",
+      badgeColor: "bg-[#10b981] text-white",
+      bgGradient: "from-[#065f46] via-[#022c22] to-[#064e3b]",
       icon: <Zap className="w-5 h-5 text-amber-400" />,
     },
   ];
@@ -62,7 +62,7 @@ export function PromoBanner() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="space-y-1.5 max-w-xl">
             <div className="flex items-center gap-2">
-              <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase font-black tracking-wider flex items-center gap-1 ${currentPromo.badgeColor}`}>
+              <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase font-black italic tracking-wider flex items-center gap-1 ${currentPromo.badgeColor}`}>
                 {currentPromo.icon}
                 {currentPromo.tag}
               </span>
@@ -70,10 +70,10 @@ export function PromoBanner() {
                 🇬🇦 Spécial Gabon
               </span>
             </div>
-            <h3 className="text-base sm:text-lg lg:text-xl font-black text-slate-50 tracking-tight">
+            <h3 className="text-base sm:text-lg lg:text-xl font-black italic text-slate-50 tracking-tight">
               {currentPromo.title}
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300">
+            <p className="text-xs sm:text-sm text-slate-200 font-medium">
               {currentPromo.subtitle}
             </p>
           </div>

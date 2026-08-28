@@ -194,12 +194,12 @@ export function PaymentModal({
             </div>
 
             <div className="space-y-1">
-              <h3 className="text-lg font-black text-slate-900 dark:text-slate-50">
+              <h3 className="text-lg font-black italic text-[#111827]">
                 Saisissez votre code PIN {operatorTitle}
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-500 font-medium">
                 Une invite USSD a été envoyée sur le mobile{" "}
-                <span className="font-bold text-slate-800 dark:text-slate-200">{phone}</span>
+                <span className="font-bold text-[#111827]">{phone}</span>
               </p>
             </div>
 
@@ -207,15 +207,15 @@ export function PaymentModal({
             <div
               className={`rounded-2xl p-4 text-left border space-y-2 ${
                 isAirtel
-                  ? "bg-rose-50/70 border-rose-200 text-rose-950 dark:bg-rose-950/20 dark:border-rose-900/40 dark:text-rose-200"
-                  : "bg-blue-50/70 border-blue-200 text-blue-950 dark:bg-blue-950/20 dark:border-blue-900/40 dark:text-blue-200"
+                  ? "bg-rose-50/70 border-rose-200 text-rose-950"
+                  : "bg-blue-50/70 border-blue-200 text-blue-950"
               }`}
             >
               <div className="flex items-center justify-between text-xs font-bold">
                 <span>Montant à débiter :</span>
-                <span className="text-sm font-black">{formatFCFA(amount)}</span>
+                <span className="text-sm font-black italic text-[#065f46]">{formatFCFA(amount)}</span>
               </div>
-              <p className="text-[11px] leading-relaxed opacity-90">
+              <p className="text-[11px] leading-relaxed opacity-90 font-medium">
                 {promptInstructions ||
                   "Consultez l'écran de votre téléphone et entrez votre code PIN secret pour autoriser le prélèvement."}
               </p>
@@ -270,17 +270,17 @@ export function PaymentModal({
         {/* State: Success */}
         {status === "success" && (
           <div className="space-y-4 py-4">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-[#065f46]">
               <CheckCircle2 className="h-10 w-10 animate-bounce" />
             </div>
             <div className="space-y-1">
               <Badge variant="emerald" className="text-xs font-bold uppercase">
                 Paiement Validé
               </Badge>
-              <h3 className="text-lg font-black text-slate-900 dark:text-slate-50">
+              <h3 className="text-lg font-black italic text-[#111827]">
                 {formatFCFA(amount)} reçus avec succès !
               </h3>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 font-medium">
                 Votre paiement {operatorTitle} a été confirmé. Génération de votre reçu...
               </p>
             </div>
@@ -290,17 +290,17 @@ export function PaymentModal({
         {/* State: Failed */}
         {status === "failed" && (
           <div className="space-y-4 py-2">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-rose-100 text-rose-600 dark:bg-rose-950 dark:text-rose-400">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-rose-100 text-rose-600">
               <XCircle className="h-10 w-10" />
             </div>
             <div className="space-y-1">
               <Badge variant="destructive" className="text-xs font-bold uppercase">
                 Échec du Paiement
               </Badge>
-              <h3 className="text-base font-black text-slate-900 dark:text-slate-50">
+              <h3 className="text-base font-black italic text-[#111827]">
                 La transaction n&apos;a pas pu aboutir
               </h3>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 font-medium">
                 {errorMessage || "Solde insuffisant ou saisie du code PIN incorrecte."}
               </p>
             </div>
@@ -325,17 +325,17 @@ export function PaymentModal({
         {/* State: Timeout */}
         {status === "timeout" && (
           <div className="space-y-4 py-2">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 text-amber-600 dark:bg-amber-950 dark:text-amber-400">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 text-[#d97706]">
               <AlertTriangle className="h-10 w-10" />
             </div>
             <div className="space-y-1">
               <Badge variant="amber" className="text-xs font-bold uppercase">
                 Session Expirée
               </Badge>
-              <h3 className="text-base font-black text-slate-900 dark:text-slate-50">
+              <h3 className="text-base font-black italic text-[#111827]">
                 Délai de saisie de 30s dépassé
               </h3>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 font-medium">
                 Aucune confirmation reçue de votre mobile {operatorTitle}. Votre compte n&apos;a pas été débité.
               </p>
             </div>

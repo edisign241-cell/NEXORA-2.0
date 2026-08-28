@@ -23,10 +23,10 @@ export function HeroBanner({
   const { selectedLocation, toggleLocationModal } = useUserStore();
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 text-white shadow-xl">
+    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#064e3b] via-[#065f46] to-[#022c22] text-white shadow-xl">
       {/* Background Decorative Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.25),transparent_50%)]" />
-      <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-amber-500/10 blur-3xl" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.3),transparent_50%)]" />
+      <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#d97706]/15 blur-3xl" />
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-10 lg:p-12 items-center">
         {/* Left Column: Value Proposition */}
@@ -34,14 +34,14 @@ export function HeroBanner({
           <div className="flex flex-wrap items-center gap-2">
             <Badge
               variant="amber"
-              className="bg-amber-400/20 text-amber-300 border border-amber-400/30 px-3 py-1 text-xs uppercase font-bold tracking-wider gap-1.5"
+              className="bg-[#d97706]/25 text-amber-200 border border-[#d97706]/40 px-3 py-1 text-xs uppercase font-bold tracking-wider gap-1.5"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
               Plateforme E-Commerce #1 au Gabon
             </Badge>
             <button
               onClick={toggleLocationModal}
-              className="inline-flex items-center gap-1 text-xs text-emerald-300 bg-emerald-900/40 border border-emerald-700/50 rounded-full px-3 py-1 hover:bg-emerald-800/50 transition-colors"
+              className="inline-flex items-center gap-1 text-xs text-emerald-300 bg-emerald-900/40 border border-emerald-700/50 rounded-full px-3 py-1 hover:bg-emerald-800/50 transition-colors font-medium"
             >
               <MapPin className="w-3 h-3 text-emerald-400" />
               <span>
@@ -51,13 +51,13 @@ export function HeroBanner({
           </div>
 
           <div className="space-y-3">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.15]">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black italic tracking-tight leading-[1.15]">
               Le meilleur du commerce gabonais,{" "}
-              <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300 bg-clip-text text-transparent font-black italic">
                 livré chez vous.
               </span>
             </h1>
-            <p className="text-sm sm:text-base text-slate-300 max-w-xl font-normal leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-200 max-w-xl font-medium leading-relaxed">
               Commandez auprès des meilleures boutiques certifiées de <strong>Libreville, Port-Gentil et Franceville</strong>. 
               Payez instantanément par <strong>Airtel Money</strong> ou <strong>Moov Money</strong> et soyez livré directement à votre repère.
             </p>

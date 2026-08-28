@@ -21,21 +21,21 @@ export function AdminView() {
   return (
     <div className="space-y-6">
       {/* Admin Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-gradient-to-r from-purple-800 via-indigo-900 to-slate-900 p-6 text-white shadow-lg">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-gradient-to-r from-[#022c22] via-[#065f46] to-[#047857] p-6 text-white shadow-lg">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-black">Supervision & Direction Nexora Gabon</h2>
-            <Badge variant="emerald" className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30 text-[10px] uppercase font-bold">
+            <h2 className="text-xl font-black italic">Supervision &amp; Direction Nexora Gabon</h2>
+            <Badge variant="emerald" className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30 text-[10px] uppercase font-black italic">
               Production GA
             </Badge>
           </div>
-          <p className="text-xs text-purple-200 mt-0.5">
+          <p className="text-xs text-emerald-100 mt-0.5 font-medium">
             Supervision des flux marchands, commissions et conformité dans les 9 provinces.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <Badge variant="amber" className="text-xs py-1 px-3 bg-amber-400 text-slate-950 font-bold">
+          <Badge variant="amber" className="text-xs py-1 px-3 bg-[#d97706] text-white font-bold">
             Commission standard : 8.0%
           </Badge>
         </div>
@@ -44,61 +44,61 @@ export function AdminView() {
       {/* KPI Global */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="p-4 border-slate-200/80">
-          <div className="flex items-center justify-between text-xs text-slate-500 mb-2">
+          <div className="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
             <span>Volume Global (GMV)</span>
-            <div className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50">
+            <div className="p-1.5 rounded-lg bg-emerald-50 text-[#065f46]">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-xl font-black text-slate-900 dark:text-slate-100">
+          <p className="text-xl font-black italic text-[#111827]">
             {formatFCFA(48920000)}
           </p>
-          <span className="text-[10px] font-semibold text-emerald-600 mt-1 inline-block">
+          <span className="text-[10px] font-semibold text-[#065f46] mt-1 inline-block">
             +24.5% vs mois précédent
           </span>
         </Card>
 
         <Card className="p-4 border-slate-200/80">
-          <div className="flex items-center justify-between text-xs text-slate-500 mb-2">
+          <div className="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
             <span>Commissions Nexora (8%)</span>
-            <div className="p-1.5 rounded-lg bg-purple-50 text-purple-600 dark:bg-purple-950/50">
+            <div className="p-1.5 rounded-lg bg-purple-50 text-purple-600">
               <DollarSign className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-xl font-black text-purple-600 dark:text-purple-400">
+          <p className="text-xl font-black italic text-purple-600">
             {formatFCFA(3913600)}
           </p>
-          <span className="text-[10px] text-slate-400 mt-1 inline-block">
+          <span className="text-[10px] text-slate-400 mt-1 inline-block font-medium">
             Revenus nets plateforme
           </span>
         </Card>
 
         <Card className="p-4 border-slate-200/80">
-          <div className="flex items-center justify-between text-xs text-slate-500 mb-2">
+          <div className="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
             <span>Boutiques Actives</span>
-            <div className="p-1.5 rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-950/50">
+            <div className="p-1.5 rounded-lg bg-amber-50 text-[#d97706]">
               <Store className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-xl font-black text-slate-900 dark:text-slate-100">
+          <p className="text-xl font-black italic text-[#111827]">
             128
           </p>
-          <span className="text-[10px] text-slate-400 mt-1 inline-block">
+          <span className="text-[10px] text-slate-400 mt-1 inline-block font-medium">
             Libreville, Port-Gentil, Moanda...
           </span>
         </Card>
 
         <Card className="p-4 border-slate-200/80">
-          <div className="flex items-center justify-between text-xs text-slate-500 mb-2">
+          <div className="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
             <span>Utilisateurs Inscrits</span>
-            <div className="p-1.5 rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950/50">
+            <div className="p-1.5 rounded-lg bg-blue-50 text-blue-600">
               <Users className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-xl font-black text-slate-900 dark:text-slate-100">
+          <p className="text-xl font-black italic text-[#111827]">
             14 520
           </p>
-          <span className="text-[10px] text-emerald-600 font-semibold mt-1 inline-block">
+          <span className="text-[10px] text-[#065f46] font-semibold mt-1 inline-block">
             +320 nouveaux cette semaine
           </span>
         </Card>
@@ -107,7 +107,7 @@ export function AdminView() {
       {/* Payment methods repartition */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="p-4 border-slate-200/80">
-          <h4 className="text-xs font-bold uppercase text-slate-400 mb-3">
+          <h4 className="text-xs font-black italic uppercase text-slate-500 mb-3">
             Répartition des Paiements au Gabon
           </h4>
           <div className="space-y-3">

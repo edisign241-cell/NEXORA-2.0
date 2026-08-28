@@ -177,10 +177,10 @@ export default function CourierDashboardPage() {
                 Espace Livreur Nexora
               </Badge>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-slate-50 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-black italic text-[#111827] tracking-tight">
               Yannick Obame
             </h1>
-            <p className="text-xs sm:text-sm text-slate-500">
+            <p className="text-xs sm:text-sm text-slate-500 font-medium">
               🛵 Moto Express Yamaha 125cc • Immatriculation : <strong>GA-4589-LBV</strong> (Libreville)
             </p>
           </div>
@@ -188,10 +188,10 @@ export default function CourierDashboardPage() {
           {/* Switch On/Off Duty Button */}
           <div className="flex items-center gap-3">
             <div className="text-right hidden sm:block text-xs">
-              <p className="font-bold text-slate-900 dark:text-slate-100">
+              <p className="font-bold text-[#111827]">
                 {isOnDuty ? "En Service (Prêt à rouler)" : "Hors Service (En pause)"}
               </p>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-slate-400 font-medium">
                 {isOnDuty ? "GPS et notifications de courses actifs" : "Aucune course assignée"}
               </p>
             </div>
@@ -199,8 +199,8 @@ export default function CourierDashboardPage() {
             <Button
               onClick={() => setIsOnDuty(!isOnDuty)}
               variant={isOnDuty ? "emerald" : "outline"}
-              className={`gap-2 font-black text-xs sm:text-sm px-4 py-2 rounded-2xl shadow-sm transition-all ${
-                isOnDuty ? "bg-emerald-600 ring-2 ring-emerald-500/30" : "text-slate-500 border-slate-300"
+              className={`gap-2 font-black italic text-xs sm:text-sm px-4 py-2 rounded-2xl shadow-sm transition-all ${
+                isOnDuty ? "bg-[#065f46] ring-2 ring-[#065f46]/30 text-white" : "text-slate-500 border-slate-300"
               }`}
             >
               <Power className={`w-4 h-4 ${isOnDuty ? "animate-pulse text-white" : ""}`} />
@@ -212,61 +212,61 @@ export default function CourierDashboardPage() {
         {/* 3 Metric Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           {/* Gains du jour */}
-          <Card className="border-slate-200/80 bg-white dark:bg-slate-900 dark:border-slate-800 shadow-sm">
+          <Card className="border-slate-200/80 bg-white shadow-sm">
             <CardContent className="p-5 flex items-center justify-between">
               <div className="space-y-1">
                 <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                   Gains du Jour (XAF)
                 </p>
-                <h3 className="text-2xl font-black text-emerald-600 dark:text-emerald-400">
+                <h3 className="text-2xl font-black italic text-[#065f46]">
                   {formatFCFA(dailyEarnings)}
                 </h3>
-                <p className="text-[11px] text-slate-500">
+                <p className="text-[11px] text-slate-500 font-medium">
                   {completedTodayCount} courses livrées aujourd&apos;hui
                 </p>
               </div>
-              <div className="h-12 w-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950 flex items-center justify-center text-emerald-600">
+              <div className="h-12 w-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-[#065f46]">
                 <DollarSign className="w-6 h-6" />
               </div>
             </CardContent>
           </Card>
 
           {/* Courses Disponibles */}
-          <Card className="border-slate-200/80 bg-white dark:bg-slate-900 dark:border-slate-800 shadow-sm">
+          <Card className="border-slate-200/80 bg-white shadow-sm">
             <CardContent className="p-5 flex items-center justify-between">
               <div className="space-y-1">
                 <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                   Courses Disponibles
                 </p>
-                <h3 className="text-2xl font-black text-amber-500">
+                <h3 className="text-2xl font-black italic text-[#d97706]">
                   {isOnDuty ? `${availableMissions.length} autour de vous` : "0 (Hors service)"}
                 </h3>
-                <p className="text-[11px] text-slate-500">
+                <p className="text-[11px] text-slate-500 font-medium">
                   Libreville, Akanda &amp; Owendo
                 </p>
               </div>
-              <div className="h-12 w-12 rounded-2xl bg-amber-50 dark:bg-amber-950 flex items-center justify-center text-amber-500">
+              <div className="h-12 w-12 rounded-2xl bg-amber-50 flex items-center justify-center text-[#d97706]">
                 <Navigation className="w-6 h-6" />
               </div>
             </CardContent>
           </Card>
 
           {/* Gains de la Semaine */}
-          <Card className="border-slate-200/80 bg-white dark:bg-slate-900 dark:border-slate-800 shadow-sm">
+          <Card className="border-slate-200/80 bg-white shadow-sm">
             <CardContent className="p-5 flex items-center justify-between">
               <div className="space-y-1">
                 <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                   Semaine en cours
                 </p>
-                <h3 className="text-2xl font-black text-blue-600 dark:text-blue-400">
+                <h3 className="text-2xl font-black italic text-[#065f46]">
                   {formatFCFA(weeklyEarnings)}
                 </h3>
-                <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-600">
+                <div className="flex items-center gap-1 text-[11px] font-semibold text-[#065f46]">
                   <TrendingUp className="w-3.5 h-3.5" />
                   <span>Virement Airtel Money mardi</span>
                 </div>
               </div>
-              <div className="h-12 w-12 rounded-2xl bg-blue-50 dark:bg-blue-950 flex items-center justify-center text-blue-600">
+              <div className="h-12 w-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
                 <ShieldCheck className="w-6 h-6" />
               </div>
             </CardContent>
@@ -274,13 +274,13 @@ export default function CourierDashboardPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-slate-200 dark:border-slate-800 gap-4">
+        <div className="flex border-b border-slate-200 gap-4">
           <button
             onClick={() => setActiveTab("available")}
             className={`pb-3 text-sm font-bold flex items-center gap-2 border-b-2 transition-all ${
               activeTab === "available"
-                ? "border-emerald-600 text-emerald-600"
-                : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                ? "border-[#065f46] text-[#065f46]"
+                : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
             <Navigation className="w-4 h-4" />
@@ -291,14 +291,14 @@ export default function CourierDashboardPage() {
             onClick={() => setActiveTab("active")}
             className={`pb-3 text-sm font-bold flex items-center gap-2 border-b-2 transition-all relative ${
               activeTab === "active"
-                ? "border-emerald-600 text-emerald-600"
-                : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                ? "border-[#065f46] text-[#065f46]"
+                : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
             <Bike className="w-4 h-4" />
             <span>Course en cours</span>
             {activeMission && (
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
+              <span className="h-2 w-2 rounded-full bg-[#10b981] animate-ping" />
             )}
           </button>
 
@@ -306,8 +306,8 @@ export default function CourierDashboardPage() {
             onClick={() => setActiveTab("earnings")}
             className={`pb-3 text-sm font-bold flex items-center gap-2 border-b-2 transition-all ${
               activeTab === "earnings"
-                ? "border-emerald-600 text-emerald-600"
-                : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                ? "border-[#065f46] text-[#065f46]"
+                : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
             <DollarSign className="w-4 h-4" />

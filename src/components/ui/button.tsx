@@ -36,21 +36,21 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantStyles = {
       default:
-        "bg-slate-900 text-white hover:bg-slate-800 shadow-sm focus-visible:ring-slate-950 dark:bg-slate-50 dark:text-slate-900 dark:hover:bg-slate-200",
+        "bg-[#065f46] text-white hover:bg-[#047857] shadow-sm shadow-[#065f46]/20 focus-visible:ring-[#065f46]",
       emerald:
-        "bg-emerald-600 text-white hover:bg-emerald-500 shadow-sm shadow-emerald-500/20 focus-visible:ring-emerald-600 active:bg-emerald-700",
+        "bg-[#10b981] text-white hover:bg-[#059669] shadow-sm shadow-[#10b981]/25 focus-visible:ring-[#10b981] active:bg-[#047857]",
       amber:
-        "bg-amber-500 text-slate-950 font-semibold hover:bg-amber-400 shadow-sm shadow-amber-500/20 focus-visible:ring-amber-500 active:bg-amber-600",
+        "bg-[#d97706] text-white hover:bg-[#b45309] shadow-sm shadow-[#d97706]/20 focus-visible:ring-[#d97706] active:bg-[#92400e]",
       blue:
         "bg-blue-600 text-white hover:bg-blue-500 shadow-sm shadow-blue-500/20 focus-visible:ring-blue-600 active:bg-blue-700",
       purple:
         "bg-purple-600 text-white hover:bg-purple-500 shadow-sm shadow-purple-500/20 focus-visible:ring-purple-600 active:bg-purple-700",
       secondary:
-        "bg-slate-100 text-slate-900 hover:bg-slate-200 focus-visible:ring-slate-400 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700",
+        "bg-[#f9fafb] text-[#111827] border border-slate-200 hover:bg-emerald-50 hover:text-[#065f46] hover:border-emerald-200 focus-visible:ring-[#065f46]",
       outline:
-        "border border-slate-200 bg-white text-slate-800 hover:bg-slate-50 hover:border-slate-300 focus-visible:ring-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800",
+        "border border-slate-200 bg-white text-[#111827] hover:bg-[#f9fafb] hover:border-[#10b981] hover:text-[#065f46] focus-visible:ring-[#065f46]",
       ghost:
-        "bg-transparent text-slate-700 hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-slate-400 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100",
+        "bg-transparent text-[#111827] hover:bg-emerald-50 hover:text-[#065f46] focus-visible:ring-[#065f46]",
       destructive:
         "bg-rose-600 text-white hover:bg-rose-500 shadow-sm focus-visible:ring-rose-600",
     };

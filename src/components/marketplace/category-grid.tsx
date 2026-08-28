@@ -107,10 +107,10 @@ export function CategoryGrid({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-black italic text-[#111827] tracking-tight">
             Rayons & Univers du Gabon
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-500 font-medium">
             Explorez les meilleures boutiques certifiées par secteur d&apos;activité
           </p>
         </div>
@@ -126,30 +126,30 @@ export function CategoryGrid({
               className={`group text-left p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between ${
                 cat.bgLight
               } hover:shadow-md hover:scale-[1.02] ${
-                isSelected ? "ring-2 ring-emerald-500 shadow-md font-semibold" : ""
+                isSelected ? "ring-2 ring-[#10b981] shadow-md font-semibold" : ""
               }`}
             >
               <div className="flex items-center justify-between mb-3">
-                <div className={`p-2.5 rounded-xl bg-white dark:bg-slate-900 shadow-sm ${cat.color}`}>
+                <div className={`p-2.5 rounded-xl bg-white shadow-sm ${cat.color}`}>
                   {cat.icon}
                 </div>
-                <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
+                <span className="text-[11px] font-bold text-slate-500">
                   {cat.storesCount} boutiques
                 </span>
               </div>
 
               <div>
-                <h3 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100 group-hover:text-emerald-600 transition-colors">
+                <h3 className="font-black italic text-xs sm:text-sm text-[#111827] group-hover:text-[#065f46] transition-colors">
                   {cat.name}
                 </h3>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5">
+                <p className="text-[11px] text-slate-500 line-clamp-1 mt-0.5 font-medium">
                   {cat.description}
                 </p>
               </div>
 
-              <div className="mt-3 pt-2 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center justify-between text-[11px] font-semibold text-slate-700 dark:text-slate-300">
+              <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[11px] font-medium text-[#111827]">
                 <span>Découvrir</span>
-                <ArrowRight className="w-3 h-3 text-slate-400 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all" />
+                <ArrowRight className="w-3 h-3 text-slate-400 group-hover:text-[#065f46] group-hover:translate-x-1 transition-all" />
               </div>
             </button>
           );

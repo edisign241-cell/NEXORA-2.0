@@ -80,7 +80,7 @@ export default function HomePage() {
   }, [selectedCategory, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 flex flex-col justify-between font-sans pb-20 md:pb-0">
+    <div className="min-h-screen bg-[#f9fafb] text-[#111827] flex flex-col justify-between font-sans font-medium pb-20 md:pb-0">
       {/* Navigation Header */}
       <Navbar onSearch={(q) => setSearchQuery(q)} />
 
@@ -114,18 +114,18 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div>
               <div className="flex items-center gap-2">
-                <Store className="w-5 h-5 text-emerald-600" />
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100">
+                <Store className="w-5 h-5 text-[#065f46]" />
+                <h2 className="text-xl sm:text-2xl font-black italic text-[#111827]">
                   Boutiques populaires près de vous
                 </h2>
               </div>
-              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-xs sm:text-sm text-slate-500 font-medium">
                 Commerçants et artisans vérifiés livrant à <strong>{selectedLocation.ville} ({selectedLocation.quartier})</strong>.
               </p>
             </div>
             <button
               onClick={toggleLocationModal}
-              className="inline-flex items-center gap-1.5 text-xs text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 font-semibold self-start sm:self-auto bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1.5 rounded-full border border-emerald-200 dark:border-emerald-900"
+              className="inline-flex items-center gap-1.5 text-xs text-[#065f46] hover:text-[#10b981] font-semibold self-start sm:self-auto bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-200"
             >
               <MapPin className="w-3.5 h-3.5" />
               <span>Changer de zone</span>
@@ -141,15 +141,15 @@ export default function HomePage() {
 
         {/* Featured & Trending Products Grid Section */}
         <section ref={productsSectionRef} className="space-y-4 pt-4">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-slate-200/80 pb-4 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-slate-200/80 pb-4">
             <div>
               <div className="flex items-center gap-2">
-                <Flame className="w-5 h-5 text-amber-500" />
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100">
+                <Flame className="w-5 h-5 text-[#d97706]" />
+                <h2 className="text-xl sm:text-2xl font-black italic text-[#111827]">
                   {selectedCategory ? "Articles filtrés par catégorie" : "Produits tendances au Gabon"}
                 </h2>
               </div>
-              <p className="text-xs sm:text-sm text-slate-500">
+              <p className="text-xs sm:text-sm text-slate-500 font-medium">
                 Paiement instantané Airtel / Moov Money et livraison express à votre repère.
               </p>
             </div>
@@ -200,18 +200,18 @@ export default function HomePage() {
         </section>
 
         {/* Gabonese Value Proposition Banner */}
-        <section className="rounded-3xl bg-gradient-to-r from-emerald-950 via-emerald-900 to-slate-900 text-white p-8 sm:p-10 shadow-xl relative overflow-hidden border border-emerald-800/40">
-          <div className="absolute top-0 right-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-emerald-600/20 blur-3xl" />
+        <section className="rounded-3xl bg-gradient-to-r from-[#022c22] via-[#065f46] to-[#064e3b] text-white p-8 sm:p-10 shadow-xl relative overflow-hidden border border-emerald-800/40">
+          <div className="absolute top-0 right-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-[#10b981]/20 blur-3xl" />
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
             <div className="lg:col-span-2 space-y-2">
-              <span className="text-xs uppercase font-extrabold tracking-widest text-amber-300 flex items-center gap-1.5">
+              <span className="text-xs uppercase font-black italic tracking-widest text-amber-300 flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4" />
                 L&apos;Engagement Nexora Gabon
               </span>
-              <h3 className="text-2xl sm:text-3xl font-black">
+              <h3 className="text-2xl sm:text-3xl font-black italic">
                 Vous êtes commerçant ou artisan au Gabon ?
               </h3>
-              <p className="text-sm text-emerald-100 max-w-xl">
+              <p className="text-sm text-emerald-100 max-w-xl font-medium">
                 Ouvrez votre boutique en ligne en 5 minutes, recevez vos paiements directement sur votre compte Airtel Money ou Moov Money, et profitez de notre réseau de livreurs dédiés.
               </p>
             </div>
@@ -231,32 +231,32 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 border-t border-slate-200/80 bg-white dark:border-slate-800 dark:bg-slate-950 py-12 text-xs text-slate-500">
+      <footer className="mt-16 border-t border-slate-200/80 bg-white py-12 text-xs text-slate-500">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-600 text-white font-black text-sm">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#065f46] text-white font-black italic text-sm">
                   N
                 </div>
-                <span className="text-base font-black text-slate-900 dark:text-slate-100">
+                <span className="text-base font-black italic text-[#111827]">
                   NEXORA GABON
                 </span>
               </div>
-              <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+              <p className="text-xs leading-relaxed text-slate-600 font-medium">
                 La première marketplace multi-vendeurs 100% pensée pour les spécificités logistiques et financières du Gabon.
               </p>
-              <div className="flex items-center gap-2 pt-1 text-slate-700 dark:text-slate-300 font-semibold">
-                <Smartphone className="w-4 h-4 text-emerald-600" />
+              <div className="flex items-center gap-2 pt-1 text-[#111827] font-semibold">
+                <Smartphone className="w-4 h-4 text-[#065f46]" />
                 <span>Paiements Airtel &amp; Moov intégrés</span>
               </div>
             </div>
 
             <div>
-              <h4 className="font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider mb-3 text-xs">
+              <h4 className="font-black italic text-[#111827] uppercase tracking-wider mb-3 text-xs">
                 Zones Desservies (9 Provinces)
               </h4>
-              <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
+              <ul className="space-y-1.5 text-xs text-slate-600 font-medium">
                 <li>• Estuaire (Libreville, Akanda, Owendo, Ntoum)</li>
                 <li>• Ogooué-Maritime (Port-Gentil, Gamba)</li>
                 <li>• Haut-Ogooué (Franceville, Moanda)</li>
@@ -266,10 +266,10 @@ export default function HomePage() {
             </div>
 
             <div>
-              <h4 className="font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider mb-3 text-xs">
+              <h4 className="font-black italic text-[#111827] uppercase tracking-wider mb-3 text-xs">
                 Moyens de Paiement
               </h4>
-              <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
+              <ul className="space-y-1.5 text-xs text-slate-600 font-medium">
                 <li>💳 Airtel Money (+241 074 / 077)</li>
                 <li>📲 Moov Money Flooz (+241 062 / 066)</li>
                 <li>💵 Paiement Cash à la livraison</li>
@@ -278,7 +278,7 @@ export default function HomePage() {
             </div>
 
             <div>
-              <h4 className="font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider mb-3 text-xs">
+              <h4 className="font-black italic text-[#111827] uppercase tracking-wider mb-3 text-xs">
                 Assistance &amp; Contact
               </h4>
               <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">

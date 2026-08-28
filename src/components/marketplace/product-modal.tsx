@@ -197,27 +197,27 @@ export function ProductModal({
         <div className="flex flex-col justify-between space-y-4">
           <div className="space-y-3">
             <div>
-              <div className="flex items-center gap-1 text-amber-500 text-xs font-bold mb-1">
+              <div className="flex items-center gap-1 text-[#d97706] text-xs font-bold mb-1">
                 <Star className="w-3.5 h-3.5 fill-current" />
                 <span>{product.rating.toFixed(1)}</span>
                 <span className="text-slate-400 font-normal">({product.reviewsCount} avis)</span>
               </div>
-              <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight leading-snug">
+              <h2 className="text-xl font-black italic text-[#111827] tracking-tight leading-snug">
                 {product.nom}
               </h2>
               <div className="flex items-baseline gap-2 mt-2">
-                <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">
+                <span className="text-2xl font-black italic text-[#065f46]">
                   {formatFCFA(activePrice)}
                 </span>
                 {product.prixPromo && (
-                  <span className="text-sm text-slate-400 line-through">
+                  <span className="text-sm text-slate-400 line-through font-medium">
                     {formatFCFA(product.prix)}
                   </span>
                 )}
               </div>
             </div>
 
-            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 font-medium leading-relaxed">
               {product.description}
             </p>
 

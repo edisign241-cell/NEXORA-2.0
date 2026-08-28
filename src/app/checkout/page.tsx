@@ -228,10 +228,10 @@ export default function CheckoutPage() {
               <Badge variant="emerald" className="text-xs uppercase font-bold px-3 py-1">
                 🇬🇦 Commande Validée avec Succès
               </Badge>
-              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-slate-50 tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-black italic text-[#111827] tracking-tight">
                 Merci pour votre confiance !
               </h1>
-              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-xs sm:text-sm text-slate-500 font-medium">
                 Votre commande a été transmise aux commerçants et un coursier a été assigné pour votre livraison.
               </p>
             </div>
@@ -367,10 +367,10 @@ export default function CheckoutPage() {
               <ArrowLeft className="w-4 h-4" />
             </Link>
             <div>
-              <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-50 tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-black italic text-[#111827] tracking-tight">
                 Finaliser votre commande
               </h1>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-500 font-medium">
                 Livraison à votre repère &amp; paiements locaux au Gabon
               </p>
             </div>
@@ -381,12 +381,12 @@ export default function CheckoutPage() {
           {/* Left Column: Delivery Form & Payment Choice (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
             {/* Step 1: Coordonnées & Destinataire */}
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
-              <div className="flex items-center gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
-                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-600 text-white font-bold text-xs">
+            <div className="rounded-3xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-sm space-y-4">
+              <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#065f46] text-white font-bold text-xs">
                   1
                 </div>
-                <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
+                <h2 className="text-base font-black italic text-[#111827]">
                   Coordonnées du destinataire
                 </h2>
               </div>
@@ -418,16 +418,16 @@ export default function CheckoutPage() {
             </div>
 
             {/* Step 2: Zone de Livraison & Repère au Gabon */}
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
-              <div className="flex items-center gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
-                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-600 text-white font-bold text-xs">
+            <div className="rounded-3xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-sm space-y-4">
+              <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#065f46] text-white font-bold text-xs">
                   2
                 </div>
                 <div>
-                  <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
+                  <h2 className="text-base font-black italic text-[#111827]">
                     Adresse &amp; Point de Repère précis
                   </h2>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-slate-500 font-medium">
                     Essentiel au Gabon pour que le livreur arrive directement chez vous
                   </p>
                 </div>
@@ -480,23 +480,23 @@ export default function CheckoutPage() {
                         setIsCustomDistrict(true);
                         setCustomDistrictName("");
                       }}
-                      className="inline-flex items-center gap-1 text-xs text-emerald-600 hover:text-emerald-700 font-medium underline pt-1"
+                      className="inline-flex items-center gap-1 text-xs text-[#065f46] hover:text-[#10b981] font-medium underline pt-1"
                     >
                       <PlusCircle className="w-3.5 h-3.5" />
                       Mon quartier n&apos;apparaît pas dans la liste
                     </button>
                   </div>
                 ) : (
-                  <div className="rounded-2xl border border-emerald-500/40 bg-emerald-50/40 p-4 dark:border-emerald-800/40 dark:bg-emerald-950/20 space-y-2">
+                  <div className="rounded-2xl border border-emerald-500/40 bg-emerald-50/40 p-4 space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
+                      <span className="text-xs font-bold text-[#065f46] flex items-center gap-1.5">
                         <Sparkles className="w-3.5 h-3.5" />
                         Saisie manuelle du quartier
                       </span>
                       <button
                         type="button"
                         onClick={() => setIsCustomDistrict(false)}
-                        className="text-xs text-slate-500 hover:text-slate-700 underline dark:text-slate-400"
+                        className="text-xs text-slate-500 hover:text-slate-700 underline"
                       >
                         Revenir à la liste
                       </button>
@@ -516,8 +516,8 @@ export default function CheckoutPage() {
 
               {/* Point de repère précis (Obligatoire) */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                  Point de repère précis (Champ Obligatoire) <span className="text-emerald-600">*</span>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                  Point de repère précis (Champ Obligatoire) <span className="text-[#065f46]">*</span>
                 </label>
                 <textarea
                   required
@@ -525,9 +525,9 @@ export default function CheckoutPage() {
                   value={landmark}
                   onChange={(e) => setLandmark(e.target.value)}
                   placeholder="Ex : Barrière blanche en face de la pharmacie de Nzeng-Ayong, grand manguier à 50m après le carrefour GP..."
-                  className="w-full rounded-xl border border-slate-200 bg-white p-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                  className="w-full rounded-xl border border-slate-200 bg-white p-3 text-sm text-[#111827] placeholder:text-slate-400 focus:border-[#10b981] focus:outline-none focus:ring-2 focus:ring-[#10b981]/20 font-medium"
                 />
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                <p className="text-[11px] text-slate-500 font-medium">
                   💡 Donnez des détails visuels (couleur de portail, commerce voisin, carrefour) pour une livraison sans appel d&apos;orientation.
                 </p>
               </div>
@@ -542,16 +542,16 @@ export default function CheckoutPage() {
             </div>
 
             {/* Step 3: Mode de Paiement au Gabon */}
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
-              <div className="flex items-center gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
-                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-600 text-white font-bold text-xs">
+            <div className="rounded-3xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-sm space-y-4">
+              <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#065f46] text-white font-bold text-xs">
                   3
                 </div>
                 <div>
-                  <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
+                  <h2 className="text-base font-black italic text-[#111827]">
                     Mode de Paiement Sécurisé
                   </h2>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-slate-500 font-medium">
                     Paiements directs via Mobile Money ou Cash à la livraison
                   </p>
                 </div>
@@ -564,12 +564,12 @@ export default function CheckoutPage() {
                   onClick={() => setSelectedPayment("airtel_money")}
                   className={`p-4 rounded-2xl border text-left transition-all relative flex flex-col justify-between ${
                     selectedPayment === "airtel_money"
-                      ? "border-rose-500 bg-rose-50/70 dark:bg-rose-950/30 ring-2 ring-rose-500/30 shadow-md"
-                      : "border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800"
+                      ? "border-rose-500 bg-rose-50/70 ring-2 ring-rose-500/30 shadow-md"
+                      : "border-slate-200 bg-white hover:bg-slate-50"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-black bg-rose-600 text-white uppercase">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-black italic bg-rose-600 text-white uppercase">
                       Airtel Money
                     </span>
                     {selectedPayment === "airtel_money" && (
@@ -577,10 +577,10 @@ export default function CheckoutPage() {
                     )}
                   </div>
                   <div>
-                    <p className="font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100">
+                    <p className="font-black italic text-xs sm:text-sm text-[#111827]">
                       Airtel Gabon
                     </p>
-                    <p className="text-[10px] text-slate-500 mt-0.5">
+                    <p className="text-[10px] text-slate-500 mt-0.5 font-medium">
                       Invite USSD push sur votre mobile (+241)
                     </p>
                   </div>
@@ -592,12 +592,12 @@ export default function CheckoutPage() {
                   onClick={() => setSelectedPayment("moov_money")}
                   className={`p-4 rounded-2xl border text-left transition-all relative flex flex-col justify-between ${
                     selectedPayment === "moov_money"
-                      ? "border-blue-500 bg-blue-50/70 dark:bg-blue-950/30 ring-2 ring-blue-500/30 shadow-md"
-                      : "border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800"
+                      ? "border-blue-500 bg-blue-50/70 ring-2 ring-blue-500/30 shadow-md"
+                      : "border-slate-200 bg-white hover:bg-slate-50"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-black bg-blue-600 text-white uppercase">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-black italic bg-blue-600 text-white uppercase">
                       Moov Flooz
                     </span>
                     {selectedPayment === "moov_money" && (
@@ -605,10 +605,10 @@ export default function CheckoutPage() {
                     )}
                   </div>
                   <div>
-                    <p className="font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100">
+                    <p className="font-black italic text-xs sm:text-sm text-[#111827]">
                       Moov Money
                     </p>
-                    <p className="text-[10px] text-slate-500 mt-0.5">
+                    <p className="text-[10px] text-slate-500 mt-0.5 font-medium">
                       Validation par code secret Moov Flooz
                     </p>
                   </div>
@@ -620,23 +620,23 @@ export default function CheckoutPage() {
                   onClick={() => setSelectedPayment("cash_on_delivery")}
                   className={`p-4 rounded-2xl border text-left transition-all relative flex flex-col justify-between ${
                     selectedPayment === "cash_on_delivery"
-                      ? "border-emerald-500 bg-emerald-50/70 dark:bg-emerald-950/30 ring-2 ring-emerald-500/30 shadow-md"
-                      : "border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800"
+                      ? "border-[#065f46] bg-emerald-50/70 ring-2 ring-[#065f46]/30 shadow-md"
+                      : "border-slate-200 bg-white hover:bg-slate-50"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-600 text-white uppercase">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-black italic bg-[#065f46] text-white uppercase">
                       Espèces
                     </span>
                     {selectedPayment === "cash_on_delivery" && (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 fill-emerald-100" />
+                      <CheckCircle2 className="w-4 h-4 text-[#065f46] fill-emerald-100" />
                     )}
                   </div>
                   <div>
-                    <p className="font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100">
+                    <p className="font-black italic text-xs sm:text-sm text-[#111827]">
                       Cash Livraison
                     </p>
-                    <p className="text-[10px] text-slate-500 mt-0.5">
+                    <p className="text-[10px] text-slate-500 mt-0.5 font-medium">
                       Payez directement le coursier en main propre
                     </p>
                   </div>
@@ -645,8 +645,8 @@ export default function CheckoutPage() {
 
               {/* Mobile Money Prompt Input */}
               {(selectedPayment === "airtel_money" || selectedPayment === "moov_money") && (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/60 space-y-2">
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+                  <label className="block text-xs font-semibold text-slate-700">
                     Numéro de compte {selectedPayment === "airtel_money" ? "Airtel Money" : "Moov Money"} à débiter :
                   </label>
                   <Input
@@ -657,7 +657,7 @@ export default function CheckoutPage() {
                     onChange={(e) => setMobileMoneyPhone(e.target.value)}
                     placeholder="+241 077 00 00 00"
                   />
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  <p className="text-[11px] text-slate-500 font-medium">
                     📲 Dès que vous cliquerez sur &quot;Confirmer la commande&quot;, une invite de validation automatique apparaîtra sur votre téléphone pour saisir votre code PIN secret.
                   </p>
                 </div>
@@ -667,8 +667,8 @@ export default function CheckoutPage() {
 
           {/* Right Column: Order Summary (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="sticky top-24 rounded-3xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-lg dark:border-slate-800 dark:bg-slate-900 space-y-5">
-              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center justify-between">
+            <div className="sticky top-24 rounded-3xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-lg space-y-5">
+              <h3 className="text-base font-black italic text-[#111827] flex items-center justify-between">
                 <span>Récapitulatif de votre panier</span>
                 <Badge variant="emerald" className="text-xs font-bold">
                   {mounted ? items.length : 0} article(s)
@@ -676,7 +676,7 @@ export default function CheckoutPage() {
               </h3>
 
               {/* Items List */}
-              <div className="divide-y divide-slate-100 dark:divide-slate-800 max-h-72 overflow-y-auto pr-1 space-y-2">
+              <div className="divide-y divide-slate-100 max-h-72 overflow-y-auto pr-1 space-y-2">
                 {mounted &&
                   items.map((item) => (
                     <div key={item.id} className="pt-2 flex items-center gap-3">
@@ -686,14 +686,14 @@ export default function CheckoutPage() {
                         className="h-12 w-12 rounded-xl object-cover border border-slate-200 shrink-0"
                       />
                       <div className="flex-1 min-w-0">
-                        <p className="font-bold text-xs text-slate-900 dark:text-slate-100 truncate">
+                        <p className="font-bold text-xs text-[#111827] truncate">
                           {item.productTitle}
                         </p>
-                        <p className="text-[10px] text-slate-500 truncate">
+                        <p className="text-[10px] text-slate-500 truncate font-medium">
                           Qté : {item.quantity} × {formatFCFA(item.productPrice)}
                         </p>
                       </div>
-                      <span className="font-bold text-xs text-slate-900 dark:text-slate-100">
+                      <span className="font-black italic text-xs text-[#065f46]">
                         {formatFCFA(item.productPrice * item.quantity)}
                       </span>
                     </div>
@@ -701,8 +701,8 @@ export default function CheckoutPage() {
               </div>
 
               {/* Promo Code Input */}
-              <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+              <div className="pt-3 border-t border-slate-100 space-y-2">
+                <label className="block text-xs font-semibold text-slate-700">
                   Code promotionnel Gabon
                 </label>
                 <div className="flex gap-2">
@@ -711,7 +711,7 @@ export default function CheckoutPage() {
                     value={enteredPromo}
                     onChange={(e) => setEnteredPromo(e.target.value.toUpperCase())}
                     placeholder="Ex : NEXORA241"
-                    className="w-full uppercase rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-mono font-bold text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                    className="w-full uppercase rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-mono font-bold text-[#111827] focus:border-[#10b981] focus:outline-none"
                   />
                   <Button
                     type="button"
@@ -725,7 +725,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {promoSuccess && (
-                  <p className="text-xs font-medium text-emerald-600 flex items-center gap-1">
+                  <p className="text-xs font-medium text-[#065f46] flex items-center gap-1">
                     <Check className="w-3.5 h-3.5" />
                     {promoSuccess}
                   </p>
@@ -739,43 +739,43 @@ export default function CheckoutPage() {
               </div>
 
               {/* Financial Breakdown */}
-              <div className="space-y-2.5 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs">
-                <div className="flex justify-between text-slate-600 dark:text-slate-300">
+              <div className="space-y-2.5 pt-3 border-t border-slate-100 text-xs">
+                <div className="flex justify-between text-slate-600">
                   <span>Sous-total articles :</span>
-                  <span className="font-semibold text-slate-900 dark:text-slate-100">
+                  <span className="font-semibold text-[#111827]">
                     {formatFCFA(subtotal)}
                   </span>
                 </div>
 
                 {discount > 0 && (
-                  <div className="flex justify-between text-emerald-600 font-semibold">
+                  <div className="flex justify-between text-[#065f46] font-semibold">
                     <span>Remise promotionnelle :</span>
                     <span>-{formatFCFA(discount)}</span>
                   </div>
                 )}
 
-                <div className="flex justify-between text-slate-600 dark:text-slate-300">
-                  <span className="flex items-center gap-1">
+                <div className="flex justify-between text-slate-600">
+                  <span className="flex items-center gap-1 font-medium">
                     Frais de livraison express :
                     <span className="text-[10px] text-slate-400">({villeName})</span>
                   </span>
-                  <span className="font-semibold text-slate-900 dark:text-slate-100">
+                  <span className="font-semibold text-[#111827]">
                     {fee === 0 ? (
-                      <span className="text-emerald-600 font-bold uppercase">Gratuit</span>
+                      <span className="text-[#065f46] font-bold uppercase">Gratuit</span>
                     ) : (
                       formatFCFA(fee)
                     )}
                   </span>
                 </div>
 
-                <div className="flex items-baseline justify-between pt-3 border-t border-slate-200 dark:border-slate-700">
+                <div className="flex items-baseline justify-between pt-3 border-t border-slate-200">
                   <div>
-                    <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                    <span className="text-sm font-black italic text-[#111827]">
                       Total TTC à payer
                     </span>
-                    <p className="text-[10px] text-slate-400">Devise officielle FCFA (XAF)</p>
+                    <p className="text-[10px] text-slate-400 font-medium">Devise officielle FCFA (XAF)</p>
                   </div>
-                  <span className="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400">
+                  <span className="text-xl sm:text-2xl font-black italic text-[#065f46]">
                     {formatFCFA(finalTotal)}
                   </span>
                 </div>

@@ -20,19 +20,19 @@ export function Badge({
   ...props
 }: BadgeProps) {
   const variantStyles = {
-    default: "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900",
+    default: "bg-[#065f46] text-white",
     emerald:
-      "bg-emerald-50 text-emerald-700 border border-emerald-200/80 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800",
+      "bg-emerald-50 text-[#065f46] border border-emerald-200/80 font-medium",
     amber:
-      "bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800",
-    blue: "bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-800",
+      "bg-amber-50 text-[#d97706] border border-amber-200 font-medium",
+    blue: "bg-blue-50 text-blue-700 border border-blue-200 font-medium",
     purple:
-      "bg-purple-50 text-purple-700 border border-purple-200 dark:bg-purple-950/50 dark:text-purple-300 dark:border-purple-800",
+      "bg-purple-50 text-purple-700 border border-purple-200 font-medium",
     secondary:
-      "bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700",
-    outline: "border border-slate-300 text-slate-800 dark:border-slate-600 dark:text-slate-200",
+      "bg-[#f9fafb] text-[#111827] border border-slate-200 font-medium",
+    outline: "border border-[#065f46]/30 text-[#111827] font-medium",
     destructive:
-      "bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800",
+      "bg-rose-50 text-rose-700 border border-rose-200 font-medium",
   };
 
   return (

@@ -243,10 +243,10 @@ export default function VendorDashboardPage() {
                 Espace Vendeur Pro
               </Badge>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-slate-50 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-black italic text-[#111827] tracking-tight">
               Saveurs &amp; Terroir du Gabon
             </h1>
-            <p className="text-xs sm:text-sm text-slate-500">
+            <p className="text-xs sm:text-sm text-slate-500 font-medium">
               Gérante : <strong>Tatiana Mengue</strong> • Angondjé Château, Akanda (Province de l&apos;Estuaire)
             </p>
           </div>
@@ -255,7 +255,7 @@ export default function VendorDashboardPage() {
             <Link href="/boutique/saveurs-terroir-gabon" target="_blank">
               <Button variant="outline" size="sm" className="gap-1.5 font-semibold text-xs">
                 <span>Voir ma vitrine publique</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <ExternalLink className="w-3.5 h-3.5 ml-1" />
               </Button>
             </Link>
             <Button
@@ -276,61 +276,61 @@ export default function VendorDashboardPage() {
         {/* 3 Key Metrics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           {/* Metric 1: Daily Revenue */}
-          <Card className="border-slate-200/80 bg-white dark:bg-slate-900 dark:border-slate-800 shadow-sm">
+          <Card className="border-slate-200/80 bg-white shadow-sm">
             <CardContent className="p-5 flex items-center justify-between">
               <div className="space-y-1">
                 <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                   Revenus du Jour (XAF)
                 </p>
-                <h3 className="text-2xl font-black text-emerald-600 dark:text-emerald-400">
+                <h3 className="text-2xl font-black italic text-[#065f46]">
                   {formatFCFA(revenueToday)}
                 </h3>
-                <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-600">
+                <div className="flex items-center gap-1 text-[11px] font-semibold text-[#065f46]">
                   <TrendingUp className="w-3.5 h-3.5" />
                   <span>+18% vs hier • Versements Airtel/Moov actifs</span>
                 </div>
               </div>
-              <div className="h-12 w-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950 flex items-center justify-center text-emerald-600">
+              <div className="h-12 w-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-[#065f46]">
                 <DollarSign className="w-6 h-6" />
               </div>
             </CardContent>
           </Card>
 
           {/* Metric 2: Pending Orders */}
-          <Card className="border-slate-200/80 bg-white dark:bg-slate-900 dark:border-slate-800 shadow-sm">
+          <Card className="border-slate-200/80 bg-white shadow-sm">
             <CardContent className="p-5 flex items-center justify-between">
               <div className="space-y-1">
                 <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                   Commandes en Cours
                 </p>
-                <h3 className="text-2xl font-black text-amber-500">
+                <h3 className="text-2xl font-black italic text-[#d97706]">
                   {pendingOrdersCount} commande(s)
                 </h3>
-                <p className="text-[11px] text-slate-500">
+                <p className="text-[11px] text-slate-500 font-medium">
                   À préparer et confier aux coursiers moto
                 </p>
               </div>
-              <div className="h-12 w-12 rounded-2xl bg-amber-50 dark:bg-amber-950 flex items-center justify-center text-amber-500">
+              <div className="h-12 w-12 rounded-2xl bg-amber-50 flex items-center justify-center text-[#d97706]">
                 <ShoppingBag className="w-6 h-6" />
               </div>
             </CardContent>
           </Card>
 
           {/* Metric 3: Critical / Out of Stock */}
-          <Card className="border-slate-200/80 bg-white dark:bg-slate-900 dark:border-slate-800 shadow-sm">
+          <Card className="border-slate-200/80 bg-white shadow-sm">
             <CardContent className="p-5 flex items-center justify-between">
               <div className="space-y-1">
                 <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                   Stock Critique / Rupture
                 </p>
-                <h3 className={`text-2xl font-black ${outOfStockCount > 0 ? "text-rose-600" : "text-emerald-600"}`}>
+                <h3 className={`text-2xl font-black italic ${outOfStockCount > 0 ? "text-rose-600" : "text-[#065f46]"}`}>
                   {outOfStockCount} article(s)
                 </h3>
-                <p className="text-[11px] text-slate-500">
+                <p className="text-[11px] text-slate-500 font-medium">
                   {outOfStockCount > 0 ? "Réapprovisionnement conseillé" : "Tous les stocks sont OK"}
                 </p>
               </div>
-              <div className="h-12 w-12 rounded-2xl bg-rose-50 dark:bg-rose-950 flex items-center justify-center text-rose-600">
+              <div className="h-12 w-12 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-600">
                 <AlertTriangle className="w-6 h-6" />
               </div>
             </CardContent>
@@ -338,13 +338,13 @@ export default function VendorDashboardPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-slate-200 dark:border-slate-800 gap-4">
+        <div className="flex border-b border-slate-200 gap-4">
           <button
             onClick={() => setActiveTab("orders")}
             className={`pb-3 text-sm font-bold flex items-center gap-2 border-b-2 transition-all ${
               activeTab === "orders"
-                ? "border-emerald-600 text-emerald-600"
-                : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                ? "border-[#065f46] text-[#065f46]"
+                : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
             <ShoppingBag className="w-4 h-4" />
@@ -355,8 +355,8 @@ export default function VendorDashboardPage() {
             onClick={() => setActiveTab("products")}
             className={`pb-3 text-sm font-bold flex items-center gap-2 border-b-2 transition-all ${
               activeTab === "products"
-                ? "border-emerald-600 text-emerald-600"
-                : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                ? "border-[#065f46] text-[#065f46]"
+                : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
             <Package className="w-4 h-4" />
@@ -367,8 +367,8 @@ export default function VendorDashboardPage() {
             onClick={() => setActiveTab("finances")}
             className={`pb-3 text-sm font-bold flex items-center gap-2 border-b-2 transition-all ${
               activeTab === "finances"
-                ? "border-emerald-600 text-emerald-600"
-                : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                ? "border-[#065f46] text-[#065f46]"
+                : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
             <Smartphone className="w-4 h-4" />
@@ -380,7 +380,7 @@ export default function VendorDashboardPage() {
         {activeTab === "orders" && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-black text-slate-900 dark:text-slate-100">
+              <h2 className="text-lg font-black italic text-[#111827]">
                 Traitement des commandes clients
               </h2>
               <span className="text-xs text-slate-500">

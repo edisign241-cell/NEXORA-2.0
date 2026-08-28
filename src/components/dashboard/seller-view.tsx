@@ -35,7 +35,7 @@ export function SellerView() {
   return (
     <div className="space-y-6">
       {/* Header Profile Summary */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-gradient-to-r from-amber-600 via-amber-500 to-orange-500 p-6 text-white shadow-lg">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-gradient-to-r from-[#065f46] via-[#047857] to-[#064e3b] p-6 text-white shadow-lg">
         <div className="flex items-center gap-4">
           <img
             src="https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=120&auto=format&fit=crop&q=80"
@@ -44,12 +44,12 @@ export function SellerView() {
           />
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-black">Saveurs &amp; Terroir du Gabon</h2>
-              <span className="rounded bg-white/20 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider backdrop-blur-md">
+              <h2 className="text-xl font-black italic">Saveurs &amp; Terroir du Gabon</h2>
+              <span className="rounded bg-white/20 px-2 py-0.5 text-[10px] font-black italic uppercase tracking-wider backdrop-blur-md">
                 Certifié Gabon Pro
               </span>
             </div>
-            <p className="text-xs text-amber-100 mt-0.5">
+            <p className="text-xs text-emerald-100 mt-0.5 font-medium">
               📍 Angondjé Château (Akanda) • Retraits Airtel : 074 12 34 56
             </p>
           </div>
@@ -73,61 +73,61 @@ export function SellerView() {
       {/* KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="p-4 border-slate-200/80">
-          <div className="flex items-center justify-between text-xs text-slate-500 mb-2">
+          <div className="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
             <span>Chiffre d&apos;Affaires</span>
-            <div className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50">
+            <div className="p-1.5 rounded-lg bg-emerald-50 text-[#065f46]">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-xl font-black text-slate-900 dark:text-slate-100">
+          <p className="text-xl font-black italic text-[#111827]">
             {formatFCFA(1248500)}
           </p>
-          <span className="text-[10px] font-semibold text-emerald-600 mt-1 inline-block">
+          <span className="text-[10px] font-semibold text-[#065f46] mt-1 inline-block">
             +18% ce mois-ci
           </span>
         </Card>
 
         <Card className="p-4 border-slate-200/80">
-          <div className="flex items-center justify-between text-xs text-slate-500 mb-2">
+          <div className="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
             <span>Commandes Reçues</span>
-            <div className="p-1.5 rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950/50">
+            <div className="p-1.5 rounded-lg bg-blue-50 text-blue-600">
               <PackageCheck className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-xl font-black text-slate-900 dark:text-slate-100">
+          <p className="text-xl font-black italic text-[#111827]">
             42
           </p>
-          <span className="text-[10px] text-slate-400 mt-1 inline-block">
+          <span className="text-[10px] text-slate-400 mt-1 inline-block font-medium">
             Dont 3 à préparer
           </span>
         </Card>
 
         <Card className="p-4 border-slate-200/80">
-          <div className="flex items-center justify-between text-xs text-slate-500 mb-2">
+          <div className="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
             <span>Articles en Vente</span>
-            <div className="p-1.5 rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-950/50">
+            <div className="p-1.5 rounded-lg bg-amber-50 text-[#d97706]">
               <ShoppingBag className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-xl font-black text-slate-900 dark:text-slate-100">
+          <p className="text-xl font-black italic text-[#111827]">
             18
           </p>
-          <span className="text-[10px] text-slate-400 mt-1 inline-block">
+          <span className="text-[10px] text-slate-400 mt-1 inline-block font-medium">
             Photos HD &amp; Vidéos actives
           </span>
         </Card>
 
         <Card className="p-4 border-slate-200/80">
-          <div className="flex items-center justify-between text-xs text-slate-500 mb-2">
+          <div className="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
             <span>Note Client</span>
-            <div className="p-1.5 rounded-lg bg-yellow-50 text-yellow-600 dark:bg-yellow-950/50">
+            <div className="p-1.5 rounded-lg bg-amber-50 text-[#d97706]">
               <Star className="w-4 h-4 fill-current" />
             </div>
           </div>
-          <p className="text-xl font-black text-slate-900 dark:text-slate-100">
+          <p className="text-xl font-black italic text-[#111827]">
             4.8 / 5
           </p>
-          <span className="text-[10px] text-slate-400 mt-1 inline-block">
+          <span className="text-[10px] text-slate-400 mt-1 inline-block font-medium">
             142 avis vérifiés
           </span>
         </Card>
@@ -135,10 +135,10 @@ export function SellerView() {
 
       {/* Orders Management Table */}
       <Card className="border-slate-200/80">
-        <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+        <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 pb-4">
           <div>
-            <CardTitle className="text-base">Commandes Récentes à Traiter</CardTitle>
-            <p className="text-xs text-slate-500">
+            <CardTitle className="text-base font-black italic text-[#111827]">Commandes Récentes à Traiter</CardTitle>
+            <p className="text-xs text-slate-500 font-medium">
               Préparez les colis pour la collecte par les coursiers Nexora.
             </p>
           </div>

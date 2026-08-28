@@ -113,11 +113,11 @@ export function LocationModal() {
       isOpen={isLocationModalOpen}
       onClose={() => setIsLocationModalOpen(false)}
       title={
-        <div className="flex items-center gap-2 text-slate-900 dark:text-slate-100">
-          <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50">
+        <div className="flex items-center gap-2 text-[#111827]">
+          <div className="p-2 rounded-xl bg-emerald-50 text-[#065f46]">
             <MapPin className="w-5 h-5" />
           </div>
-          <span className="font-bold">Définir votre zone de livraison au Gabon</span>
+          <span className="font-black italic">Définir votre zone de livraison au Gabon</span>
         </div>
       }
       description="Précisez votre province, ville, quartier et repère visuel pour une livraison express à votre porte par nos coursiers."
@@ -153,7 +153,7 @@ export function LocationModal() {
 
         {/* Quartiers Pilotes Rapides */}
         <div className="space-y-1.5">
-          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700">
             Quartiers fréquents à {villeName}
           </label>
           <div className="flex flex-wrap gap-1.5">
@@ -162,10 +162,10 @@ export function LocationModal() {
                 key={q}
                 type="button"
                 onClick={() => handleQuickDistrictSelect(q)}
-                className={`text-xs px-2.5 py-1 rounded-lg border transition-all ${
+                className={`text-xs px-2.5 py-1 rounded-lg border transition-all font-medium ${
                   !isCustomDistrict && quartierName === q
-                    ? "bg-emerald-600 text-white border-emerald-600 font-semibold shadow-sm"
-                    : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700"
+                    ? "bg-[#065f46] text-white border-[#065f46] font-semibold shadow-sm"
+                    : "bg-[#f9fafb] text-[#111827] border-slate-200 hover:bg-emerald-50 hover:text-[#065f46]"
                 }`}
               >
                 {q}

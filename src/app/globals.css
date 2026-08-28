@@ -4,18 +4,33 @@
 
 @layer base {
   :root {
-    --background: #f8fafc;
-    --foreground: #0f172a;
+    --background: #f9fafb; /* Fond clair */
+    --foreground: #111827; /* Texte principal */
+    --emerald-deep: #065f46; /* Vert Émeraude Profond */
+    --emerald-light: #10b981; /* Vert Émeraude Clair */
+    --alert: #d97706; /* Alerte */
   }
 
   .dark {
-    --background: #090d16;
-    --foreground: #f8fafc;
+    --background: #022c22;
+    --foreground: #f9fafb;
+    --emerald-deep: #065f46;
+    --emerald-light: #10b981;
+    --alert: #d97706;
   }
 
   body {
     background-color: var(--background);
     color: var(--foreground);
+    font-family: var(--font-inter), "Inter", system-ui, sans-serif;
+    font-weight: 500; /* Corps : font-medium */
+  }
+
+  /* Titres : font-black, italic */
+  h1, h2, h3, h4, h5, h6, .font-title {
+    font-weight: 900 !important;
+    font-style: italic !important;
+    letter-spacing: -0.025em;
   }
 }
 

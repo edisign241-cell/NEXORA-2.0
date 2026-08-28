@@ -151,7 +151,7 @@ export default function BoutiquePage() {
 
                   <div className="pt-2">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-slate-50 tracking-tight">
+                      <h1 className="text-xl sm:text-2xl lg:text-3xl font-black italic text-[#111827] tracking-tight">
                         {store.nom}
                       </h1>
                       {store.verified && (
@@ -161,7 +161,7 @@ export default function BoutiquePage() {
                         </Badge>
                       )}
                     </div>
-                    <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
+                    <p className="text-xs sm:text-sm text-slate-500 font-medium">
                       Gérant : <strong>{store.ownerName}</strong> • {store.categories.join(", ")}
                     </p>
                   </div>
@@ -178,9 +178,9 @@ export default function BoutiquePage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="w-full gap-2 border-emerald-500/40 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-300 font-semibold"
+                      className="w-full gap-2 border-[#10b981]/40 text-[#065f46] bg-emerald-50 hover:bg-emerald-100 font-semibold"
                     >
-                      <MessageCircle className="w-4 h-4 text-emerald-600" />
+                      <MessageCircle className="w-4 h-4 text-[#065f46]" />
                       <span>WhatsApp Boutique</span>
                     </Button>
                   </a>
@@ -195,61 +195,61 @@ export default function BoutiquePage() {
               </div>
 
               {/* Bio & Description */}
-              <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 max-w-3xl leading-relaxed mt-2 mb-4">
+              <p className="text-xs sm:text-sm text-slate-700 max-w-3xl leading-relaxed mt-2 mb-4 font-medium">
                 {store.description}
               </p>
 
               {/* Metadata Highlights Bar */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs">
-                <div className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-                  <div className="p-2 rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-950 dark:text-amber-300">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-slate-100 text-xs">
+                <div className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-50">
+                  <div className="p-2 rounded-lg bg-amber-100 text-[#d97706]">
                     <Star className="w-4 h-4 fill-current" />
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 dark:text-slate-100">
+                    <p className="font-bold text-[#111827]">
                       {store.rating.toFixed(2)} / 5.0
                     </p>
-                    <p className="text-[10px] text-slate-500">
+                    <p className="text-[10px] text-slate-500 font-medium">
                       Basé sur {store.reviewsCount} avis
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-                  <div className="p-2 rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-50">
+                  <div className="p-2 rounded-lg bg-emerald-100 text-[#065f46]">
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div className="truncate">
-                    <p className="font-bold text-slate-900 dark:text-slate-100 truncate">
+                    <p className="font-bold text-[#111827] truncate">
                       {store.location.quartier}, {store.location.ville}
                     </p>
-                    <p className="text-[10px] text-slate-500 truncate" title={store.location.repere_texte}>
+                    <p className="text-[10px] text-slate-500 truncate font-medium" title={store.location.repere_texte}>
                       {store.location.repere_texte || "Point de repère fourni"}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-                  <div className="p-2 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-950 dark:text-blue-300">
+                <div className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-50">
+                  <div className="p-2 rounded-lg bg-blue-100 text-blue-600">
                     <Clock className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 dark:text-slate-100">
+                    <p className="font-bold text-[#111827]">
                       Ouvert aujourd&apos;hui
                     </p>
-                    <p className="text-[10px] text-slate-500">08h30 - 20h00</p>
+                    <p className="text-[10px] text-slate-500 font-medium">08h30 - 20h00</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-                  <div className="p-2 rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-950 dark:text-purple-300">
+                <div className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-50">
+                  <div className="p-2 rounded-lg bg-purple-100 text-purple-600">
                     <ShieldCheck className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 dark:text-slate-100">
+                    <p className="font-bold text-[#111827]">
                       Paiements Sécurisés
                     </p>
-                    <p className="text-[10px] text-slate-500">Airtel / Moov Money</p>
+                    <p className="text-[10px] text-slate-500 font-medium">Airtel / Moov Money</p>
                   </div>
                 </div>
               </div>
@@ -262,11 +262,11 @@ export default function BoutiquePage() {
           {/* Catalog Header & Search Filter */}
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight flex items-center gap-2">
-                <ShoppingBag className="w-6 h-6 text-emerald-600" />
+              <h2 className="text-xl sm:text-2xl font-black italic text-[#111827] tracking-tight flex items-center gap-2">
+                <ShoppingBag className="w-6 h-6 text-[#065f46]" />
                 Catalogue de la boutique ({filteredProducts.length} articles)
               </h2>
-              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-xs sm:text-sm text-slate-500 font-medium">
                 Commandez avec livraison immédiate à votre repère à {store.location.ville}
               </p>
             </div>

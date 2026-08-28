@@ -88,36 +88,36 @@ export function ProductCard({
       <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
         <div>
           {/* Store Name */}
-          <div className="flex items-center gap-1 text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">
-            <StoreIcon className="w-3 h-3 text-emerald-600 shrink-0" />
+          <div className="flex items-center gap-1 text-[11px] font-medium text-slate-500 mb-1">
+            <StoreIcon className="w-3 h-3 text-[#065f46] shrink-0" />
             <span className="truncate">{product.storeName}</span>
           </div>
 
           {/* Product Title */}
-          <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 line-clamp-2 group-hover:text-emerald-600 transition-colors leading-snug">
+          <h3 className="font-black italic text-sm text-[#111827] line-clamp-2 group-hover:text-[#065f46] transition-colors leading-snug">
             {product.nom}
           </h3>
         </div>
 
         {/* Rating & Stock */}
         <div className="flex items-center justify-between text-xs text-slate-500">
-          <div className="flex items-center gap-1 text-amber-500 font-bold text-xs">
+          <div className="flex items-center gap-1 text-[#d97706] font-bold text-xs">
             <Star className="w-3.5 h-3.5 fill-current" />
             <span>{product.rating.toFixed(1)}</span>
             <span className="text-[10px] text-slate-400 font-normal">
               ({product.reviewsCount})
             </span>
           </div>
-          <span className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+          <span className="text-[11px] font-medium text-[#065f46]">
             {product.stock > 0 ? `En stock (${product.stock})` : "Sur commande"}
           </span>
         </div>
 
         {/* Price & Add to Cart */}
-        <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+        <div className="flex items-center justify-between pt-2 border-t border-slate-100">
           <div>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-base font-black text-slate-900 dark:text-slate-100">
+              <span className="text-base font-black italic text-[#111827]">
                 {formatFCFA(activePrice)}
               </span>
             </div>

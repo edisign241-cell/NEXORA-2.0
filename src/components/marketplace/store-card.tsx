@@ -63,44 +63,44 @@ export function StoreCard({
             </div>
             <div className="pt-6 flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
-                <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 truncate group-hover:text-emerald-600 transition-colors">
+                <h3 className="font-black italic text-sm text-[#111827] truncate group-hover:text-[#065f46] transition-colors">
                   {store.nom}
                 </h3>
                 {store.verified && (
                   <span title="Boutique certifiée Nexora">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 fill-emerald-50 shrink-0 dark:fill-emerald-950" />
+                    <CheckCircle2 className="w-4 h-4 text-[#10b981] fill-emerald-50 shrink-0" />
                   </span>
                 )}
               </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+              <p className="text-[11px] text-slate-500 truncate font-medium">
                 Gérant : {store.ownerName}
               </p>
             </div>
           </div>
 
           {/* Description */}
-          <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed mb-3">
+          <p className="text-xs text-slate-600 font-medium line-clamp-2 leading-relaxed mb-3">
             {store.description}
           </p>
 
           {/* Store Metadata */}
-          <div className="space-y-2 border-t border-slate-100 dark:border-slate-800/80 pt-2.5 pb-3">
-            <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-              <div className="flex items-center gap-1 text-amber-500 font-bold">
+          <div className="space-y-2 border-t border-slate-100 pt-2.5 pb-3">
+            <div className="flex items-center justify-between text-xs text-slate-500">
+              <div className="flex items-center gap-1 text-[#d97706] font-bold">
                 <Star className="w-3.5 h-3.5 fill-current" />
                 <span>{store.rating.toFixed(1)}</span>
                 <span className="text-[10px] text-slate-400 font-normal">
                   ({store.reviewsCount} avis)
                 </span>
               </div>
-              <div className="flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400 text-[11px]">
+              <div className="flex items-center gap-1 font-semibold text-[#065f46] text-[11px]">
                 <ShoppingBag className="w-3 h-3" />
                 <span>{store.totalSales} commandes</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 truncate">
-              <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+            <div className="flex items-center gap-1.5 text-xs text-slate-600 truncate">
+              <MapPin className="w-3.5 h-3.5 text-[#065f46] shrink-0" />
               <span className="truncate font-medium">
                 {store.location.quartier}, {store.location.ville}
               </span>
@@ -109,14 +109,14 @@ export function StoreCard({
             {/* Payment Badges & Action */}
             <div className="flex items-center justify-between pt-1.5">
               <div className="flex items-center gap-1.5 text-[10px]">
-                <span className="px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 font-bold border border-rose-200 dark:bg-rose-950/40 dark:text-rose-300">
+                <span className="px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 font-bold border border-rose-200">
                   Airtel Money
                 </span>
-                <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 font-bold border border-blue-200 dark:bg-blue-950/40 dark:text-blue-300">
+                <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 font-bold border border-blue-200">
                   Moov Flooz
                 </span>
               </div>
-              <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 group-hover:translate-x-0.5 transition-transform">
+              <span className="inline-flex items-center gap-1 text-xs font-bold text-[#065f46] group-hover:translate-x-0.5 transition-transform">
                 Visiter <ArrowRight className="w-3 h-3" />
               </span>
             </div>

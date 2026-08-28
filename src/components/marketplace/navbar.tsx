@@ -42,10 +42,10 @@ export function Navbar({ onSearch }: { onSearch?: (query: string) => void }) {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95 transition-all">
       {/* Top Banner Notice */}
-      <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-700 px-4 py-1.5 text-xs text-white">
+      <div className="bg-gradient-to-r from-[#065f46] via-[#047857] to-[#064e3b] px-4 py-1.5 text-xs text-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div className="flex items-center gap-2 overflow-hidden">
-            <span className="flex h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+            <span className="flex h-2 w-2 rounded-full bg-[#d97706] animate-pulse" />
             <span className="truncate font-medium">
               🇬🇦 <strong>Nexora Gabon</strong> : Marketplace 100% connectée (Airtel Money, Moov Money, Cash)
             </span>
@@ -62,17 +62,17 @@ export function Navbar({ onSearch }: { onSearch?: (query: string) => void }) {
         {/* Brand Logo */}
         <div className="flex items-center gap-3">
           <Link href="/" className="group flex items-center gap-2.5">
-            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-[#065f46] to-[#10b981] text-white shadow-md shadow-[#065f46]/20 group-hover:scale-105 transition-transform">
               <Sparkles className="w-5 h-5 text-amber-300" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tight text-slate-900 dark:text-slate-50 flex items-center gap-1">
+              <span className="text-xl font-black italic tracking-tight text-[#111827] flex items-center gap-1">
                 NEXORA
-                <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-emerald-100 text-[#065f46]">
                   GA
                 </span>
               </span>
-              <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 -mt-0.5">
+              <span className="text-[10px] font-medium text-slate-500 -mt-0.5">
                 Marketplace du Gabon
               </span>
             </div>
