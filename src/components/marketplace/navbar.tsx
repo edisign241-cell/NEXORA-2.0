@@ -100,17 +100,18 @@ export function Navbar({ onSearch }: { onSearch?: (query: string) => void }) {
           {/* Quick Location Selector (Desktop) */}
           <button
             onClick={toggleLocationModal}
+            suppressHydrationWarning
             className="hidden lg:flex items-center gap-2 rounded-xl border border-slate-200/80 bg-slate-50/80 px-3 py-1.5 text-xs text-slate-700 hover:border-emerald-500/50 hover:bg-emerald-50/50 transition-all dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-300 dark:hover:bg-slate-800"
             title="Changer de ville ou quartier"
           >
             <div className="rounded-full bg-emerald-500/10 p-1 text-emerald-600 dark:text-emerald-400">
               <MapPin className="w-3.5 h-3.5" />
             </div>
-            <div className="text-left">
+            <div className="text-left" suppressHydrationWarning>
               <p className="text-[10px] uppercase font-bold text-slate-400 leading-none">
                 Livraison à
               </p>
-              <p className="font-semibold text-slate-800 dark:text-slate-100 truncate max-w-[140px]">
+              <p className="font-semibold text-slate-800 dark:text-slate-100 truncate max-w-[140px]" suppressHydrationWarning>
                 {selectedLocation.ville}, {selectedLocation.quartier}
               </p>
             </div>
@@ -150,7 +151,7 @@ export function Navbar({ onSearch }: { onSearch?: (query: string) => void }) {
           </Link>
 
           {/* User Account / Auth Dropdown */}
-          <div className="relative">
+          <div className="relative" suppressHydrationWarning>
             {mounted && isAuthenticated && displayName ? (
               <div className="relative">
                 <button
