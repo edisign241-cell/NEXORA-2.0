@@ -306,36 +306,44 @@ ALTER TABLE public.courier_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.custom_districts ENABLE ROW LEVEL SECURITY;
 
 -- 5.1 PROFILES POLICIES
+DROP POLICY IF EXISTS "Public profiles are readable by everyone" ON public.profiles;
 CREATE POLICY "Public profiles are readable by everyone"
     ON public.profiles FOR SELECT
     USING (true);
 
+DROP POLICY IF EXISTS "Users can insert their own profile" ON public.profiles;
 CREATE POLICY "Users can insert their own profile"
     ON public.profiles FOR INSERT
     WITH CHECK (auth.uid() = id OR auth.role() = 'service_role');
 
+DROP POLICY IF EXISTS "Users can update their own profile or admin can manage" ON public.profiles;
 CREATE POLICY "Users can update their own profile or admin can manage"
     ON public.profiles FOR UPDATE
     USING (auth.uid() = id OR public.is_admin(auth.uid()));
 
+DROP POLICY IF EXISTS "Admins can delete profiles" ON public.profiles;
 CREATE POLICY "Admins can delete profiles"
     ON public.profiles FOR DELETE
     USING (public.is_admin(auth.uid()));
 
 -- 5.2 STORES POLICIES
+DROP POLICY IF EXISTS "Stores are viewable by everyone" ON public.stores;
 CREATE POLICY "Stores are viewable by everyone"
     ON public.stores FOR SELECT
     USING (true);
 
+DROP POLICY IF EXISTS "Vendors can insert their own store" ON public.stores;
 CREATE POLICY "Vendors can insert their own store"
     ON public.stores FOR INSERT
     WITH CHECK (auth.uid() = vendor_id);
 
+DROP POLICY IF EXISTS "Vendors can update their own store" ON public.stores;
 CREATE POLICY "Vendors can update their own store"
     ON public.stores FOR UPDATE
     USING (auth.uid() = vendor_id);
 
 -- 5.3 PRODUCTS POLICIES
+DROP POLICY IF EXISTS "Active products are viewable by everyone" ON public.products;
 CREATE POLICY "Active products are viewable by everyone"
     ON public.products FOR SELECT
     USING (is_active = true OR EXISTS (
@@ -343,6 +351,7 @@ CREATE POLICY "Active products are viewable by everyone"
         WHERE stores.id = products.store_id AND stores.vendor_id = auth.uid()
     ));
 
+DROP POLICY IF EXISTS "Vendors can insert products in their stores" ON public.products;
 CREATE POLICY "Vendors can insert products in their stores"
     ON public.products FOR INSERT
     WITH CHECK (EXISTS (
@@ -350,6 +359,7 @@ CREATE POLICY "Vendors can insert products in their stores"
         WHERE stores.id = store_id AND stores.vendor_id = auth.uid()
     ));
 
+DROP POLICY IF EXISTS "Vendors can update products in their stores" ON public.products;
 CREATE POLICY "Vendors can update products in their stores"
     ON public.products FOR UPDATE
     USING (EXISTS (
@@ -357,6 +367,7 @@ CREATE POLICY "Vendors can update products in their stores"
         WHERE stores.id = products.store_id AND stores.vendor_id = auth.uid()
     ));
 
+DROP POLICY IF EXISTS "Vendors can delete products in their stores" ON public.products;
 CREATE POLICY "Vendors can delete products in their stores"
     ON public.products FOR DELETE
     USING (EXISTS (
@@ -365,6 +376,7 @@ CREATE POLICY "Vendors can delete products in their stores"
     ));
 
 -- 5.4 ORDERS POLICIES
+DROP POLICY IF EXISTS "Customers can view their own orders" ON public.orders;
 CREATE POLICY "Customers can view their own orders"
     ON public.orders FOR SELECT
     USING (
@@ -376,10 +388,12 @@ CREATE POLICY "Customers can view their own orders"
         )
     );
 
+DROP POLICY IF EXISTS "Authenticated customers can insert orders" ON public.orders;
 CREATE POLICY "Authenticated customers can insert orders"
     ON public.orders FOR INSERT
     WITH CHECK (auth.uid() = customer_id);
 
+DROP POLICY IF EXISTS "Involved parties can update order status" ON public.orders;
 CREATE POLICY "Involved parties can update order status"
     ON public.orders FOR UPDATE
     USING (
@@ -392,6 +406,7 @@ CREATE POLICY "Involved parties can update order status"
     );
 
 -- 5.5 ORDER ITEMS POLICIES
+DROP POLICY IF EXISTS "Involved users can view order items" ON public.order_items;
 CREATE POLICY "Involved users can view order items"
     ON public.order_items FOR SELECT
     USING (EXISTS (
@@ -407,6 +422,7 @@ CREATE POLICY "Involved users can view order items"
         )
     ));
 
+DROP POLICY IF EXISTS "Customers can insert order items for their orders" ON public.order_items;
 CREATE POLICY "Customers can insert order items for their orders"
     ON public.order_items FOR INSERT
     WITH CHECK (EXISTS (
@@ -415,19 +431,23 @@ CREATE POLICY "Customers can insert order items for their orders"
     ));
 
 -- 5.6 COURIER PROFILES POLICIES
+DROP POLICY IF EXISTS "Courier profiles are viewable by authenticated users" ON public.courier_profiles;
 CREATE POLICY "Courier profiles are viewable by authenticated users"
     ON public.courier_profiles FOR SELECT
     USING (auth.role() = 'authenticated');
 
+DROP POLICY IF EXISTS "Couriers can update their own courier profile" ON public.courier_profiles;
 CREATE POLICY "Couriers can update their own courier profile"
     ON public.courier_profiles FOR UPDATE
     USING (auth.uid() = id);
 
 -- 5.7 CUSTOM DISTRICTS POLICIES
+DROP POLICY IF EXISTS "Districts are viewable by everyone" ON public.custom_districts;
 CREATE POLICY "Districts are viewable by everyone"
     ON public.custom_districts FOR SELECT
     USING (true);
 
+DROP POLICY IF EXISTS "Authenticated users can submit custom districts" ON public.custom_districts;
 CREATE POLICY "Authenticated users can submit custom districts"
     ON public.custom_districts FOR INSERT
     WITH CHECK (auth.role() = 'authenticated');
