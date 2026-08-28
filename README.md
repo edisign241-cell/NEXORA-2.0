@@ -48,11 +48,19 @@
 * **Raccourcis WhatsApp & Appel Direct** vers le client dès l'arrivée.
 * **Validation de Remise Sécurisée par Code OTP à 4 chiffres**.
 
+### 🔐 Authentification & Contrôle d'Accès par Rôles (RBAC)
+* **4 Rôles Utilisateurs** : Client (`customer`), Vendeur Pro (`vendor`), Livreur Partenaire (`courier`), Administrateur (`admin`).
+* **Supabase Auth SSR** : Gestion des cookies de session chiffrés et rafraîchissement automatique des tokens via `@supabase/ssr`.
+* **Triggers PostgreSQL Automatiques** : Création immédiate du profil utilisateur, initialisation automatique de la boutique pour les vendeurs et du profil livreur avec type de véhicule.
+* **Protection Middleware Stricte** : Redirection intelligente vers `/auth/login?redirect=...` et écran dédié `/unauthorized` en cas de droits insuffisants.
+* **Formulaire d'Inscription Adapté au Gabon** : Sélecteur de profil interactif, numéros locaux `+241`, et repères visuels d'adressage.
+
 ---
 
 ## 🛠️ Stack Technique
 
 * **Framework** : [Next.js 14+ / Next.js 16](https://nextjs.org/) (App Router, Server Actions, Dynamic API Routes)
+* **Authentification & RBAC** : [Supabase Auth SSR](https://supabase.com/docs/guides/auth/server-side/nextjs) (`@supabase/ssr`)
 * **Langage** : [TypeScript](https://www.typescriptlang.org/) (Typage strict de bout en bout)
 * **Styling** : [Tailwind CSS](https://tailwindcss.com/) + Icônes [Lucide React](https://lucide.dev/)
 * **State Management** : [Zustand](https://zustand-demo.pmnd.rs/) (Panier client et préférences d'adressage persistées)
@@ -68,29 +76,41 @@ NEXORA/
 ├── public/                     # Assets statiques et illustrations
 ├── src/
 │   ├── app/                    # Routes Next.js App Router
+│   │   ├── account/            # Gestion du profil & adresses
 │   │   ├── api/payments/       # Endpoints transactionnels
 │   │   │   ├── initiate/       # Initiation Push USSD & idempotence
 │   │   │   ├── status/[id]/    # Polling du statut de validation
 │   │   │   └── webhook/        # Réception Webhook HMAC
+│   │   ├── auth/               # Module d'authentification Supabase
+│   │   │   ├── callback/       # Échange de code OAuth/Email
+│   │   │   ├── login/          # Page de connexion multi-rôles
+│   │   │   ├── register/       # Page d'inscription avec profils
+│   │   │   └── reset-password/ # Récupération de mot de passe
 │   │   ├── boutique/[slug]/    # Page vitrine boutique & catalogue
 │   │   ├── checkout/           # Tunnel de commande & paiement USSD
 │   │   ├── dashboard/          # Espace multi-rôles
 │   │   │   ├── courier/        # Dashboard livreur moto & OTP
 │   │   │   └── vendor/         # Dashboard marchand & catalogue
-│   │   ├── layout.tsx          # Layout racine & metadata SEO
+│   │   ├── unauthorized/       # Page d'accès restreint (RBAC)
+│   │   ├── layout.tsx          # Layout racine & AuthProvider
 │   │   └── page.tsx            # Page d'accueil marketplace
 │   ├── components/
 │   │   ├── dashboard/          # Uploader médias, KPIs, gestionnaires
 │   │   ├── marketplace/        # Modale de paiement USSD, cartes produits, navbar
+│   │   ├── providers/          # AuthProvider (Context & session Supabase)
 │   │   └── ui/                 # Composants atomiques (Button, Badge, Input...)
+│   ├── hooks/                  # useUser hook d'authentification
 │   ├── lib/
+│   │   ├── actions/            # Server Actions (signInWithPassword, signUp...)
 │   │   ├── constants/          # Base des 9 provinces et quartiers du Gabon
 │   │   ├── services/           # Moteur passerelle de paiement & HMAC
+│   │   ├── supabase/           # Clients SSR, Server & Middleware Supabase
 │   │   ├── types/              # Définitions TypeScript strictes
 │   │   └── utils.ts            # Formateur FCFA (XAF) et utilitaires
+│   ├── middleware.ts           # Protection RBAC des routes
 │   └── store/                  # Stores Zustand (Panier & Localisation)
 ├── supabase/
-│   └── schema.sql              # Schéma PostgreSQL (RLS, tables, profils)
+│   └── schema.sql              # Schéma PostgreSQL (RLS, tables, profils, triggers)
 ├── .env.example                # Modèle des variables d'environnement
 ├── package.json
 └── tsconfig.json
@@ -102,8 +122,8 @@ NEXORA/
 
 ### 1. Cloner le projet et installer les dépendances
 ```bash
-git clone https://github.com/votre-compte/nexora-gabon.git
-cd nexora-gabon
+git clone https://github.com/edisign241-cell/NEXORA.git
+cd NEXORA
 npm install
 ```
 

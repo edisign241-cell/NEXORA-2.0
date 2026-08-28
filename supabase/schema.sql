@@ -48,6 +48,7 @@ END $$;
 -- 2.1 PROFILES (Utilisateurs : Clients, Vendeurs, Livreurs, Administrateurs)
 CREATE TABLE IF NOT EXISTS public.profiles (
     id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    email TEXT,
     role user_role NOT NULL DEFAULT 'customer',
     full_name TEXT NOT NULL,
     phone TEXT,
@@ -206,18 +207,83 @@ CREATE TRIGGER tr_courier_profiles_updated_at
     BEFORE UPDATE ON public.courier_profiles
     FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
 
+-- Helper function: Check if current authenticated user is an administrator
+CREATE OR REPLACE FUNCTION public.is_admin(user_id UUID DEFAULT auth.uid())
+RETURNS BOOLEAN AS $$
+BEGIN
+    RETURN EXISTS (
+        SELECT 1 FROM public.profiles
+        WHERE id = user_id AND role = 'admin'
+    );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
 -- Trigger to automatically create a profile when a new user signs up in auth.users
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
+DECLARE
+    assigned_role user_role := 'customer';
 BEGIN
-    INSERT INTO public.profiles (id, full_name, phone, role, avatar_url)
+    -- Parse role from user metadata
+    IF (NEW.raw_user_meta_data->>'role') IS NOT NULL AND (NEW.raw_user_meta_data->>'role') IN ('customer', 'vendor', 'courier', 'admin') THEN
+        assigned_role := (NEW.raw_user_meta_data->>'role')::user_role;
+    END IF;
+
+    -- Insert or update profile
+    INSERT INTO public.profiles (id, email, full_name, phone, role, avatar_url)
     VALUES (
         NEW.id,
-        COALESCE(NEW.raw_user_meta_data->>'full_name', 'Utilisateur Nexora'),
+        NEW.email,
+        COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'name', 'Utilisateur Nexora'),
         NEW.raw_user_meta_data->>'phone',
-        COALESCE((NEW.raw_user_meta_data->>'role')::user_role, 'customer'::user_role),
+        assigned_role,
         NEW.raw_user_meta_data->>'avatar_url'
-    );
+    )
+    ON CONFLICT (id) DO UPDATE SET
+        email = EXCLUDED.email,
+        full_name = EXCLUDED.full_name,
+        phone = COALESCE(EXCLUDED.phone, profiles.phone),
+        avatar_url = COALESCE(EXCLUDED.avatar_url, profiles.avatar_url),
+        updated_at = timezone('utc'::text, now());
+
+    -- Automatically create a default store entry if the registered user is a vendor
+    IF assigned_role = 'vendor' AND (NEW.raw_user_meta_data->>'store_name') IS NOT NULL THEN
+        INSERT INTO public.stores (
+            vendor_id,
+            name,
+            slug,
+            bio,
+            category,
+            province,
+            city,
+            district,
+            address_landmark
+        ) VALUES (
+            NEW.id,
+            NEW.raw_user_meta_data->>'store_name',
+            LOWER(REGEXP_REPLACE(NEW.raw_user_meta_data->>'store_name', '[^a-zA-Z0-9]+', '-', 'g')) || '-' || SUBSTRING(NEW.id::text, 1, 6),
+            COALESCE(NEW.raw_user_meta_data->>'store_bio', 'Boutique officielle sur la Marketplace Nexora Gabon'),
+            COALESCE(NEW.raw_user_meta_data->>'store_category', 'Général'),
+            COALESCE(NEW.raw_user_meta_data->>'province', 'Estuaire'),
+            COALESCE(NEW.raw_user_meta_data->>'city', 'Libreville'),
+            COALESCE(NEW.raw_user_meta_data->>'district', 'Centre-Ville'),
+            COALESCE(NEW.raw_user_meta_data->>'address_landmark', 'Face voie principale')
+        ) ON CONFLICT DO NOTHING;
+    END IF;
+
+    -- Automatically create a courier profile if the registered user is a courier
+    IF assigned_role = 'courier' THEN
+        INSERT INTO public.courier_profiles (
+            id,
+            vehicle_type,
+            is_active_duty
+        ) VALUES (
+            NEW.id,
+            COALESCE((NEW.raw_user_meta_data->>'vehicle_type')::vehicle_type_enum, 'moto'::vehicle_type_enum),
+            false
+        ) ON CONFLICT DO NOTHING;
+    END IF;
+
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
@@ -244,9 +310,17 @@ CREATE POLICY "Public profiles are readable by everyone"
     ON public.profiles FOR SELECT
     USING (true);
 
-CREATE POLICY "Users can update their own profile"
+CREATE POLICY "Users can insert their own profile"
+    ON public.profiles FOR INSERT
+    WITH CHECK (auth.uid() = id OR auth.role() = 'service_role');
+
+CREATE POLICY "Users can update their own profile or admin can manage"
     ON public.profiles FOR UPDATE
-    USING (auth.uid() = id);
+    USING (auth.uid() = id OR public.is_admin(auth.uid()));
+
+CREATE POLICY "Admins can delete profiles"
+    ON public.profiles FOR DELETE
+    USING (public.is_admin(auth.uid()));
 
 -- 5.2 STORES POLICIES
 CREATE POLICY "Stores are viewable by everyone"

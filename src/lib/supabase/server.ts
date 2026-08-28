@@ -1,34 +1,99 @@
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import { Database } from "@/lib/types/database";
 import { MOCK_STORES, MOCK_PRODUCTS, MOCK_ORDERS } from "@/lib/constants/mock-data";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseServiceKey =
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 export const isServerSupabaseConfigured = Boolean(
   supabaseUrl &&
-    supabaseServiceKey &&
-    supabaseUrl !== "https://your-project.supabase.co"
+    supabaseAnonKey &&
+    supabaseUrl !== "https://your-project.supabase.co" &&
+    supabaseAnonKey !== "your-anon-key"
 );
 
 /**
- * Server-Side Supabase Client (Service Role / Admin or Anon)
- * Safe for Server Components, Server Actions, and Route Handlers.
+ * Server-Side Supabase Client with Cookie storage.
+ * To be used in Server Components, Server Actions, and Route Handlers.
  */
-export function createServerClient() {
+export async function createClient() {
+  const cookieStore = await cookies();
+
   if (!isServerSupabaseConfigured) {
-    return createSupabaseClient<Database>(
+    return createServerClient<Database>(
       "https://placeholder-nexora.supabase.co",
-      "placeholder-service-key-nexora"
+      "placeholder-anon-key-nexora",
+      {
+        cookies: {
+          getAll() {
+            return cookieStore.getAll();
+          },
+          setAll(cookiesToSet) {
+            try {
+              cookiesToSet.forEach(({ name, value, options }) =>
+                cookieStore.set(name, value, options)
+              );
+            } catch {
+              // The `setAll` method was called from a Server Component.
+            }
+          },
+        },
+      }
     );
   }
-  return createSupabaseClient<Database>(supabaseUrl!, supabaseServiceKey!, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
+
+  return createServerClient<Database>(supabaseUrl!, supabaseAnonKey!, {
+    cookies: {
+      getAll() {
+        return cookieStore.getAll();
+      },
+      setAll(cookiesToSet) {
+        try {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            cookieStore.set(name, value, options)
+          );
+        } catch {
+          // The `setAll` method was called from a Server Component.
+        }
+      },
     },
   });
+}
+
+/**
+ * Helper to fetch current authenticated user and profile on the server.
+ */
+export async function getServerUser() {
+  if (!isServerSupabaseConfigured) {
+    return { user: null, profile: null, role: null };
+  }
+
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      return { user: null, profile: null, role: null };
+    }
+
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    return {
+      user,
+      profile,
+      role: profile?.role || (user.user_metadata?.role as string) || "customer",
+    };
+  } catch {
+    return { user: null, profile: null, role: null };
+  }
 }
 
 /**
@@ -39,7 +104,7 @@ export async function getServerStores() {
     return { data: MOCK_STORES, error: null };
   }
   try {
-    const supabase = createServerClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from("stores")
       .select("*")
@@ -60,7 +125,7 @@ export async function getServerProducts(storeId?: string) {
     return { data: products, error: null };
   }
   try {
-    const supabase = createServerClient();
+    const supabase = await createClient();
     let query = supabase.from("products").select("*").eq("is_active", true);
     if (storeId) query = query.eq("store_id", storeId);
     const { data, error } = await query;
@@ -80,7 +145,7 @@ export async function getServerOrders() {
     return { data: MOCK_ORDERS, error: null };
   }
   try {
-    const supabase = createServerClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from("orders")
       .select("*, order_items(*)");

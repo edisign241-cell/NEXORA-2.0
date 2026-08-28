@@ -1,6 +1,6 @@
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+import { createBrowserClient } from "@supabase/ssr";
 import { Database } from "@/lib/types/database";
-import { MOCK_STORES, MOCK_PRODUCTS, MOCK_ORDERS } from "@/lib/constants/mock-data";
+import { MOCK_STORES, MOCK_PRODUCTS } from "@/lib/constants/mock-data";
 import { GABON_PROVINCES, ProvinceData } from "@/lib/constants/gabon-locations";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -14,15 +14,19 @@ export const isSupabaseConfigured = Boolean(
 );
 
 /**
- * Browser Supabase Client
- * Uses environment variables if configured, or a mock-safe instance.
+ * Creates a browser-side Supabase client with SSR cookie support.
  */
-export const supabase = isSupabaseConfigured
-  ? createSupabaseClient<Database>(supabaseUrl!, supabaseAnonKey!)
-  : createSupabaseClient<Database>(
+export function createClient() {
+  if (!isSupabaseConfigured) {
+    return createBrowserClient<Database>(
       "https://placeholder-nexora.supabase.co",
       "placeholder-anon-key-nexora"
     );
+  }
+  return createBrowserClient<Database>(supabaseUrl!, supabaseAnonKey!);
+}
+
+export const supabase = createClient();
 
 export function getBrowserSupabase() {
   return supabase;
@@ -30,7 +34,7 @@ export function getBrowserSupabase() {
 
 /**
  * Data Access Layer with Automatic Mock Fallback
- * Allows the Nexora frontend and dashboard to run seamlessly with or without live Supabase credentials.
+ * Allows the Nexora frontend to run smoothly in demo mode or with real Supabase credentials.
  */
 export const nexoraApi = {
   isLive: isSupabaseConfigured,
@@ -84,7 +88,7 @@ export const nexoraApi = {
     const getFallbackDistricts = (targetCity: string): string[] => {
       const estuaire = GABON_PROVINCES.find((p: ProvinceData) => p.nom === "Estuaire");
       const ville = estuaire?.villes.find((v) => v.nom.toLowerCase() === targetCity.toLowerCase());
-      return ville?.quartiers || ["Louis", "Glass", "Nzeng-Ayong", "Batterie IV", "Akanda"];
+      return ville?.quartiers || ["Louis", "Glass", "Nzeng-Ayong", "Batterie IV", "Akanda", "Mont-Bouët", "Oloumi"];
     };
 
     if (!isSupabaseConfigured) {
@@ -99,26 +103,9 @@ export const nexoraApi = {
       if (error || !data || data.length === 0) {
         return { data: getFallbackDistricts(city), error: null };
       }
-      return { data: data.map((d: { district_name: string }) => d.district_name), error: null };
+      return { data: data.map((d) => d.district_name), error: null };
     } catch {
       return { data: getFallbackDistricts(city), error: null };
-    }
-  },
-
-  async getOrders(customerId?: string) {
-    if (!isSupabaseConfigured) {
-      return { data: MOCK_ORDERS, error: null };
-    }
-    try {
-      let query = supabase.from("orders").select("*, order_items(*)");
-      if (customerId) query = query.eq("customer_id", customerId);
-      const { data, error } = await query;
-      if (error || !data || data.length === 0) {
-        return { data: MOCK_ORDERS, error: null };
-      }
-      return { data, error: null };
-    } catch {
-      return { data: MOCK_ORDERS, error: null };
     }
   },
 };
