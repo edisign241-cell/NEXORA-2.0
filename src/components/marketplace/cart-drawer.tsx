@@ -81,8 +81,8 @@ export function CartDrawer() {
         onClick={() => setIsOpen(false)}
       />
 
-      <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
-        <div className="w-screen max-w-md bg-white shadow-2xl dark:bg-slate-900 flex flex-col justify-between animate-in slide-in-from-right duration-300">
+      <div className="fixed inset-y-0 right-0 flex max-w-full pl-0 sm:pl-10">
+        <div className="w-screen max-w-full sm:max-w-md bg-white shadow-2xl dark:bg-slate-900 flex flex-col justify-between animate-in slide-in-from-right duration-300">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-slate-200/80 px-5 py-4 dark:border-slate-800">
             <div className="flex items-center gap-2">

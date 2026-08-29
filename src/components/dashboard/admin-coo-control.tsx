@@ -147,18 +147,18 @@ export function AdminCooControl() {
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-slate-200/80 pb-3">
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-b border-slate-200/80">
         {[
-          { id: "overview", label: "Vue Générale 10 Piliers", icon: <Activity className="w-3.5 h-3.5" /> },
-          { id: "fraud", label: "Sécurité & Anti-Fraude (4 Niveaux)", icon: <ShieldAlert className="w-3.5 h-3.5" /> },
-          { id: "financials", label: "Rapprochement Financier & Wallets", icon: <DollarSign className="w-3.5 h-3.5" /> },
+          { id: "overview", label: "Vue 10 Piliers", icon: <Activity className="w-3.5 h-3.5" /> },
+          { id: "fraud", label: "Anti-Fraude (4 Niveaux)", icon: <ShieldAlert className="w-3.5 h-3.5" /> },
+          { id: "financials", label: "Rapprochement Financier", icon: <DollarSign className="w-3.5 h-3.5" /> },
           { id: "logistics", label: "Dispatch & Livraisons OTP", icon: <Truck className="w-3.5 h-3.5" /> },
-          { id: "daily_report", label: "Rapport Quotidien COO (08h00)", icon: <FileText className="w-3.5 h-3.5" /> },
+          { id: "daily_report", label: "Rapport COO (08h00)", icon: <FileText className="w-3.5 h-3.5" /> },
         ].map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveSubTab(tab.id as any)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
               activeSubTab === tab.id
                 ? "bg-slate-900 text-white shadow-sm"
                 : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200/80"

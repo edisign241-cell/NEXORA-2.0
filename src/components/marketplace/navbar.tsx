@@ -257,49 +257,96 @@ export function Navbar({ onSearch }: { onSearch?: (query: string) => void }) {
         </div>
       </div>
 
-      {/* Mobile Search & Location Row */}
-      <div className="md:hidden border-t border-slate-100 bg-slate-50/70 p-3 dark:border-slate-800 dark:bg-slate-900/50 space-y-2">
-        <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={handleSearchChange}
-            placeholder="Rechercher au Gabon..."
-            className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-xs text-[#111827] focus:border-[#065f46] focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-          />
-        </div>
-
-        <button
-          onClick={toggleLocationModal}
-          className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
-        >
-          <div className="flex items-center gap-2 truncate">
-            <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-            <span className="truncate">
-              Zone : <strong>{selectedLocation.ville} ({selectedLocation.quartier})</strong>
-            </span>
+      {/* Mobile Quick Search & Location Row */}
+      <div className="md:hidden border-t border-slate-100 bg-slate-50/90 px-4 py-2.5 dark:border-slate-800 dark:bg-slate-900/90 space-y-2">
+        <div className="flex items-center gap-2">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              placeholder="Rechercher à Libreville, Akanda..."
+              className="w-full rounded-xl border border-slate-200 bg-white py-1.5 pl-8 pr-3 text-xs text-[#111827] focus:border-[#065f46] focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 shadow-sm"
+            />
           </div>
-          <span className="text-[10px] font-semibold text-emerald-600 underline">
-            Modifier
-          </span>
-        </button>
 
-        {/* Mobile Auth Actions */}
-        <div className="grid grid-cols-2 gap-2 pt-1">
-          <Link href="/auth/login" className="w-full">
-            <Button variant="outline" size="sm" className="w-full text-xs font-bold gap-1.5">
-              <LogIn className="w-3.5 h-3.5 text-[#065f46]" />
-              <span>Connexion</span>
-            </Button>
-          </Link>
-          <Link href="/auth/register" className="w-full">
-            <Button variant="emerald" size="sm" className="w-full text-xs font-bold gap-1.5">
-              <UserPlus className="w-3.5 h-3.5" />
-              <span>S&apos;inscrire</span>
-            </Button>
-          </Link>
+          <button
+            onClick={toggleLocationModal}
+            className="flex items-center gap-1.5 shrink-0 rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] font-bold text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 shadow-sm"
+          >
+            <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+            <span className="max-w-[90px] truncate">{selectedLocation.quartier}</span>
+          </button>
         </div>
+
+        {/* Expandable Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 space-y-2 animate-fadeIn">
+            {mounted && isAuthenticated ? (
+              <div className="space-y-1.5 bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-200/80 shadow-sm">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-700">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-full bg-emerald-100 text-[#065f46] flex items-center justify-center font-black text-xs">
+                      {displayName ? displayName.charAt(0).toUpperCase() : "U"}
+                    </div>
+                    <div>
+                      <p className="font-bold text-xs text-slate-900 dark:text-slate-100 truncate">{displayName}</p>
+                      <p className="text-[10px] text-slate-400 capitalize">Rôle : {role}</p>
+                    </div>
+                  </div>
+                  <Badge variant="emerald" className="text-[9px] uppercase font-bold">
+                    {role}
+                  </Badge>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <Link href={getDashboardLink()} onClick={() => setMobileMenuOpen(false)} className="w-full">
+                    <Button variant="emerald" size="sm" className="w-full text-xs font-bold gap-1.5 h-8">
+                      <LayoutDashboard className="w-3.5 h-3.5" />
+                      <span>Tableau de bord</span>
+                    </Button>
+                  </Link>
+
+                  <Link href="/account" onClick={() => setMobileMenuOpen(false)} className="w-full">
+                    <Button variant="outline" size="sm" className="w-full text-xs font-bold gap-1.5 h-8">
+                      <UserIcon className="w-3.5 h-3.5 text-slate-600" />
+                      <span>Mon Compte</span>
+                    </Button>
+                  </Link>
+                </div>
+
+                <Button
+                  onClick={() => {
+                    signOut();
+                    setMobileMenuOpen(false);
+                  }}
+                  variant="ghost"
+                  size="sm"
+                  className="w-full text-xs font-bold text-rose-600 hover:bg-rose-50 h-8 justify-center gap-1.5"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Se déconnecter</span>
+                </Button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)} className="w-full">
+                  <Button variant="outline" size="sm" className="w-full text-xs font-bold gap-1.5 bg-white">
+                    <LogIn className="w-3.5 h-3.5 text-[#065f46]" />
+                    <span>Connexion</span>
+                  </Button>
+                </Link>
+                <Link href="/auth/register" onClick={() => setMobileMenuOpen(false)} className="w-full">
+                  <Button variant="emerald" size="sm" className="w-full text-xs font-bold gap-1.5">
+                    <UserPlus className="w-3.5 h-3.5" />
+                    <span>S&apos;inscrire</span>
+                  </Button>
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </header>
   );

@@ -57,23 +57,23 @@ export function SocialCoachModal({ isOpen, onClose, product }: SocialCoachModalP
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
-      <div className="relative w-full max-w-3xl rounded-2xl bg-white shadow-2xl overflow-hidden my-8 border border-slate-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-2 sm:p-4 overflow-y-auto">
+      <div className="relative w-full max-w-3xl rounded-2xl bg-white shadow-2xl overflow-hidden my-4 sm:my-8 border border-slate-200">
         {/* Header */}
-        <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-[#064e3b] p-5 text-white flex items-center justify-between">
+        <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-[#064e3b] p-4 sm:p-5 text-white flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-white/10 backdrop-blur-md">
-              <Sparkles className="w-5 h-5 text-amber-400" />
+            <div className="p-1.5 sm:p-2 rounded-xl bg-white/10 backdrop-blur-md">
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-base font-black italic">Kit de Vente Réseaux Sociaux (IA Coach)</h2>
-                <Badge variant="amber" className="text-[10px] uppercase font-black">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                <h2 className="text-sm sm:text-base font-black italic">Kit de Vente Réseaux Sociaux (IA)</h2>
+                <Badge variant="amber" className="text-[9px] sm:text-[10px] uppercase font-black px-1.5 py-0.2">
                   Conversion Rapide
                 </Badge>
               </div>
-              <p className="text-xs text-slate-300">
-                Génération automatique pour : <strong>{product.name}</strong> ({product.price.toLocaleString("fr-FR")} FCFA)
+              <p className="text-[11px] sm:text-xs text-slate-300 truncate max-w-[220px] sm:max-w-none">
+                Pour : <strong>{product.name}</strong> ({product.price.toLocaleString("fr-FR")} FCFA)
               </p>
             </div>
           </div>
@@ -87,7 +87,7 @@ export function SocialCoachModal({ isOpen, onClose, product }: SocialCoachModalP
         </div>
 
         {/* Body Content */}
-        <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto text-xs text-slate-800">
+        <div className="p-4 sm:p-6 space-y-5 sm:space-y-6 max-h-[75vh] overflow-y-auto text-xs text-slate-800">
           {/* Section 1 : Hooks */}
           <div className="space-y-2.5">
             <div className="flex items-center justify-between">
