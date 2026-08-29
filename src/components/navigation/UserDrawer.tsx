@@ -37,7 +37,7 @@ interface UserDrawerProps {
 export function UserDrawer({ isOpen, onClose }: UserDrawerProps) {
   const router = useRouter();
   const { user, profile } = useAuth();
-  const { role: storeRole, selectedLocation, setSelectedLocation } = useUserStore();
+  const { role: storeRole, selectedLocation, setLocation } = useUserStore();
 
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [editFullName, setEditFullName] = useState(
@@ -73,7 +73,7 @@ export function UserDrawer({ isOpen, onClose }: UserDrawerProps) {
     e.preventDefault();
     setIsSaving(true);
     setTimeout(() => {
-      setSelectedLocation({
+      setLocation({
         province: "Estuaire",
         ville: "Libreville",
         quartier: editDistrict,
