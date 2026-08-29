@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signUp } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,11 +32,26 @@ import {
 
 type AccountRole = "customer" | "vendor" | "courier";
 
-export default function RegisterPage() {
+function RegisterFormContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const roleParam = searchParams.get("role");
 
   // Role Selection
   const [selectedRole, setSelectedRole] = useState<AccountRole>("customer");
+
+  React.useEffect(() => {
+    if (roleParam) {
+      const lower = roleParam.toLowerCase();
+      if (lower === "vendor" || lower === "vendeur" || lower === "marchand") {
+        setSelectedRole("vendor");
+      } else if (lower === "courier" || lower === "livreur" || lower === "coursier") {
+        setSelectedRole("courier");
+      } else if (lower === "customer" || lower === "client") {
+        setSelectedRole("customer");
+      }
+    }
+  }, [roleParam]);
 
   // Common Fields
   const [fullName, setFullName] = useState("");
@@ -468,5 +483,19 @@ export default function RegisterPage() {
       <CartDrawer />
       <LocationModal />
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <React.Suspense
+      fallback={
+        <div className="min-h-screen bg-white flex items-center justify-center text-xs text-slate-500">
+          Chargement de l'inscription Nexora...
+        </div>
+      }
+    >
+      <RegisterFormContent />
+    </React.Suspense>
   );
 }

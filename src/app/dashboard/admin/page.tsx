@@ -74,7 +74,13 @@ export default function AdminDashboardPage() {
             </h1>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Link href="/dashboard/admin/users">
+              <Button variant="default" size="sm" className="bg-[#065f46] hover:bg-[#044e3a] text-white gap-1.5 text-xs font-bold shadow-sm">
+                <Users className="w-4 h-4" />
+                <span>Import &amp; Liens Utilisateurs</span>
+              </Button>
+            </Link>
             <Link href="/dashboard/vendor">
               <Button variant="outline" size="sm" className="gap-1.5 text-xs font-bold">
                 <StoreIcon className="w-4 h-4 text-[#065f46]" />
