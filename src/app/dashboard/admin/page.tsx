@@ -25,6 +25,7 @@ import {
   MapPin,
   PackageOpen,
 } from "lucide-react";
+import { AdminCooControl } from "@/components/dashboard/admin-coo-control";
 
 export default function AdminDashboardPage() {
   const [stores, setStores] = useState<Store[]>([]);
@@ -95,6 +96,9 @@ export default function AdminDashboardPage() {
             </Link>
           </div>
         </div>
+
+        {/* Nexora COO IA Operations Control Room (10 Pillars & Anti-Fraud) */}
+        <AdminCooControl />
 
         {/* Global KPIs */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

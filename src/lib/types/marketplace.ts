@@ -1,6 +1,6 @@
 /**
  * Nexora Marketplace Gabon - Core TypeScript Definitions
- * Tailored for Gabonese e-commerce & localized logistics
+ * Tailored for Gabonese e-commerce, localized logistics & Operations COO Engine
  */
 
 export type UserRole = "client" | "vendeur" | "livreur" | "admin" | "customer" | "vendor" | "courier";
@@ -22,12 +22,13 @@ export type OrderStatus =
   | "cancelled";
 
 export type DeliveryStatus =
-  | "pending"
+  | "pending_assignment"
   | "assigned"
   | "picked_up"
   | "in_transit"
   | "delivered"
-  | "failed";
+  | "failed"
+  | "returned";
 
 export type ProductCategory =
   | "mode_beaute"
@@ -37,6 +38,8 @@ export type ProductCategory =
   | "sante_bien_etre"
   | "auto_moto"
   | "services";
+
+export type FraudRiskLevel = "low" | "medium" | "high" | "critical";
 
 /**
  * Gabonese specific Location Interface
@@ -162,6 +165,7 @@ export interface Order {
   status: OrderStatus;
   deliveryLocation: Location;
   deliveryId?: string;
+  otpCode?: string; // 4 digits delivery confirmation OTP
   notes?: string;
   estimatedDeliveryDate?: string;
   createdAt: string;
@@ -175,16 +179,21 @@ export interface Delivery {
   id: string;
   orderId: string;
   orderNumber: string;
+  courierId?: string;
+  courierName?: string;
+  courierPhone?: string;
   livreurId?: string;
   livreurName?: string;
   livreurPhone?: string;
   status: DeliveryStatus;
+  otpCode: string; // 4-digit OTP to validate delivery on customer handover
   pickupLocation: Location; // Boutique / Vendor location
   dropoffLocation: Location; // Client location with repère
   clientName: string;
   clientPhone: string;
   repereLivraison: string;
   deliveryFee: number; // in FCFA
+  courierPayout: number; // in FCFA (e.g. 1200 FCFA for driver)
   notes?: string;
   timeline: {
     time: string;
@@ -195,4 +204,98 @@ export interface Delivery {
   createdAt: string;
   assignedAt?: string;
   completedAt?: string;
+}
+
+/**
+ * Wallet Interface for Vendors & Couriers
+ */
+export interface Wallet {
+  id: string;
+  userId: string;
+  balanceXaf: number; // Available balance in FCFA
+  pendingXaf: number; // Escrow / pending orders balance
+  totalEarnedXaf: number; // Lifetime earnings in FCFA
+  operator: "airtel" | "moov";
+  mobileMoneyPhone: string;
+  isFrozen: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/**
+ * Wallet Transaction Interface
+ */
+export interface WalletTransaction {
+  id: string;
+  walletId: string;
+  orderId?: string;
+  type: "credit_sale" | "commission_deduction" | "payout_airtel" | "payout_moov" | "refund" | "adjustment";
+  amountXaf: number;
+  feeXaf: number;
+  status: "pending" | "completed" | "failed" | "cancelled";
+  referenceCode: string;
+  notes?: string;
+  createdAt: string;
+}
+
+/**
+ * Review Interface
+ */
+export interface Review {
+  id: string;
+  customerId: string;
+  customerName: string;
+  storeId: string;
+  productId?: string;
+  orderId?: string;
+  rating: number; // 1 to 5
+  comment: string;
+  reply?: string;
+  createdAt: string;
+}
+
+/**
+ * Notification Interface
+ */
+export interface Notification {
+  id: string;
+  userId: string;
+  title: string;
+  message: string;
+  type: "order" | "payment" | "delivery" | "promo" | "security" | "system";
+  linkUrl?: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+/**
+ * Promo Code Interface
+ */
+export interface PromoCode {
+  id: string;
+  code: string;
+  description: string;
+  discountType: "percentage" | "fixed_xaf" | "free_delivery";
+  discountValue: number;
+  minOrderAmountXaf: number;
+  maxDiscountXaf?: number;
+  usageLimit?: number;
+  usedCount: number;
+  isActive: boolean;
+  expiresAt?: string;
+}
+
+/**
+ * Fraud Log / Risk Alert Interface
+ */
+export interface FraudAlert {
+  id: string;
+  userId?: string;
+  orderId?: string;
+  riskLevel: FraudRiskLevel;
+  ruleTriggered: string;
+  details: Record<string, any>;
+  isResolved: boolean;
+  actionTaken?: string;
+  createdAt: string;
 }

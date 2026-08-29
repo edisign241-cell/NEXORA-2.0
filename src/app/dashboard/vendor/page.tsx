@@ -871,18 +871,25 @@ export default function VendorDashboardPage() {
               <CardContent className="p-5 space-y-4 text-xs">
                 <div className="rounded-2xl bg-emerald-950 text-white p-5 space-y-2">
                   <p className="text-xs uppercase font-bold text-emerald-300">Solde net des ventes à reverser</p>
-                  <h3 className="text-3xl font-black text-amber-300">{formatFCFA(142800)}</h3>
+                  <h3 className="text-3xl font-black text-amber-300">{formatFCFA(Math.round(orders.filter(o => o.status === "completed").reduce((sum, o) => sum + (o.totalAmount || 0), 0) * 0.95))}</h3>
                   <p className="text-[11px] text-emerald-200">
                     Calculé après commission marketplace Nexora (5%)
                   </p>
                 </div>
 
                 <Button
-                  onClick={() => alert("Demande de virement immédiat initiée vers Airtel Money (+241 077 45 89 12). Montant: 142 800 FCFA")}
+                  onClick={() => {
+                    const balance = Math.round(orders.filter(o => o.status === "completed").reduce((sum, o) => sum + (o.totalAmount || 0), 0) * 0.95);
+                    if (balance < 2000) {
+                      alert("Le montant minimum de retrait est de 2 000 FCFA. Votre solde actuel est de " + formatFCFA(balance));
+                    } else {
+                      alert(`Demande de virement immédiat de ${formatFCFA(balance)} initiée vers votre compte Airtel Money (+241 077 45 89 12).`);
+                    }
+                  }}
                   variant="emerald"
                   className="w-full font-bold shadow-md shadow-emerald-600/20"
                 >
-                  Transférer 142 800 FCFA sur mon compte Airtel Money
+                  Transférer mon solde disponible vers Airtel Money (*150#)
                 </Button>
               </CardContent>
             </Card>

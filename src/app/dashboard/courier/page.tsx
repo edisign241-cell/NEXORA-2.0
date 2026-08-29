@@ -102,9 +102,7 @@ const INITIAL_AVAILABLE_MISSIONS: DeliveryMission[] = [
 export default function CourierDashboardPage() {
   const [isOnDuty, setIsOnDuty] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState<"available" | "active" | "earnings">("available");
-  const [availableMissions, setAvailableMissions] = React.useState<DeliveryMission[]>(
-    INITIAL_AVAILABLE_MISSIONS
-  );
+  const [availableMissions, setAvailableMissions] = React.useState<DeliveryMission[]>([]);
   const [activeMission, setActiveMission] = React.useState<DeliveryMission | null>(null);
 
   // OTP Validation state

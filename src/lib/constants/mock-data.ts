@@ -456,6 +456,8 @@ export const MOCK_DELIVERIES: Delivery[] = [
     clientPhone: "+241 077 45 89 12",
     repereLivraison: "Face pharmacie de Nzeng-Ayong, grand portail vert à 50m du carrefour GP",
     deliveryFee: 2000,
+    courierPayout: 1500,
+    otpCode: "2410",
     notes: "Appeler le client 10 minutes avant l'arrivée au carrefour GP.",
     timeline: [
       {
