@@ -104,3 +104,26 @@ export class SocialGrowthCoach {
     };
   }
 }
+
+/**
+ * Helper client/server function to generate AI Seller Marketing Kit
+ */
+export async function generateSellerMarketingKit(productData: {
+  store_name: string;
+  category: string;
+  product_name: string;
+  price_xaf: number;
+  product_description: string;
+  location: string;
+  product_url: string;
+}) {
+  return SocialGrowthCoach.generateKit({
+    storeName: productData.store_name,
+    category: productData.category,
+    productName: productData.product_name,
+    priceXaf: productData.price_xaf,
+    productDescription: productData.product_description,
+    location: productData.location,
+    productUrl: productData.product_url,
+  });
+}
