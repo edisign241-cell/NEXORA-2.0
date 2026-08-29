@@ -103,6 +103,43 @@ export class SocialGrowthCoach {
       shareLinks,
     };
   }
+
+  /**
+   * Autonomously writes a persuasive, high-converting product description
+   * optimized for e-commerce conversion, zero emojis, local relevance in Gabon.
+   */
+  static generateAutonomousProductDescription(input: {
+    productName: string;
+    category?: string;
+    priceXaf?: number;
+    storeName?: string;
+    location?: string;
+  }): string {
+    const name = input.productName.trim() || "Article sélectionné";
+    const cat = (input.category || "commerce").toLowerCase();
+    const priceStr = input.priceXaf ? `${input.priceXaf.toLocaleString("fr-FR")} FCFA` : "tarif officiel";
+    const store = input.storeName || "Boutique Officielle Nexora";
+    const loc = input.location || "Libreville";
+
+    if (cat.includes("alimentation") || cat.includes("terroir") || cat.includes("street_food") || cat.includes("epicerie")) {
+      return `Découvrez ${name}, sélectionné avec soin auprès des meilleurs producteurs locaux pour vous garantir une fraîcheur et une authenticité incomparables. Idéal pour vos repas du quotidien et vos recettes traditionnelles gabonaises, cet article respecte des normes strictes de préparation et d'hygiène. Disponible au prix de ${priceStr} chez ${store}, avec livraison rapide à votre domicile ou point de repère à ${loc} et expédition sécurisée dans tout le Gabon.`;
+    }
+
+    if (cat.includes("mode") || cat.includes("wax") || cat.includes("beaute") || cat.includes("vetement")) {
+      return `${name} allie élégance, finitions soignées et confort exceptionnel. Conçu à partir de matières durables et agréables à porter, ce modèle valorise votre style aussi bien pour vos sorties que pour vos événements formels. Proposé au tarif de ${priceStr} chez ${store}, il bénéficie d'une confection de haute qualité avec un tombé parfait. Commandez dès maintenant pour une livraison directe à ${loc} et un paiement simplifié par Airtel Money ou Moov Money.`;
+    }
+
+    if (cat.includes("tech") || cat.includes("electronique") || cat.includes("smartphone")) {
+      return `${name} vous offre des performances optimales, une grande autonomie et une fiabilité éprouvée pour répondre à tous vos besoins professionnels et personnels. Testé et certifié conforme, cet équipement est proposé au prix de ${priceStr} avec garantie constructeur chez ${store}. Bénéficiez d'une livraison express en moins de 24h à ${loc} avec contrôle et validation par code OTP à la remise en main propre.`;
+    }
+
+    if (cat.includes("artisanat") || cat.includes("pierre") || cat.includes("maison") || cat.includes("culture")) {
+      return `Véritable pièce d'exception issue de l'artisanat gabonais, ${name} apporte une touche d'élégance unique et authentique à votre intérieur. Fabriqué selon des techniques traditionnelles transmises de génération en génération, chaque exemplaire témoigne d'un savoir-faire méticuleux. Disponible à ${priceStr} chez ${store}, avec emballage soigné et livraison sécurisée à ${loc}.`;
+    }
+
+    // Generic fallback for any other category
+    return `${name} est un article de qualité supérieure sélectionné pour sa durabilité, son efficacité et son excellent rapport qualité-prix. Disponible au prix de ${priceStr} chez ${store}, il répond parfaitement aux attentes des utilisateurs les plus exigeants. Commandez en toute sérénité sur Nexora avec livraison suivie à votre repère à ${loc} et paiement flexible à la livraison ou par Mobile Money.`;
+  }
 }
 
 /**
