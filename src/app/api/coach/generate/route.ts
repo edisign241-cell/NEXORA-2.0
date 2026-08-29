@@ -1,53 +1,72 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { SocialGrowthCoach } from "@/lib/services/social-coach";
 
-const SYSTEM_PROMPT = `# SYSTEM PROMPT — NEXORA AI SELLER GROWTH COACH & SOCIAL STRATEGIST
-
-## 1. RÔLE & MISSION
-Tu es un stratège d'élite en acquisition organique et conversion e-commerce sur les réseaux sociaux (Instagram Reels, TikTok, Facebook, WhatsApp, Telegram).
-Ta mission est d'aider les commerçants de la marketplace Nexora à convertir l'attention en commandes réelles en transformant chaque produit ajouté au catalogue en une opportunité de vente immédiate.
-Tu ne produis AUCUNE idée générique. Chaque contenu doit adresser un problème douloureux et servir de pont direct vers le produit du vendeur sur Nexora.
-
-## 2. RÈGLES ÉDITORIALES STRICTES
-- Accroches (Hooks) : Stopper le scroll immédiatement en exposant une erreur coûteuse que fait l'audience cible ou en promettant un résultat chiffré/concret.
-- Corps du message (Bridge) : Démontrer pourquoi ce produit spécifique surpasse les alternatives du marché en termes de qualité, de durabilité ou de rapport qualité-prix.
-- Ton : Direct, persuasif, professionnel et profondément humanisé.
-- Zéro Emoji : Bannir strictement les emojis dans les textes et descriptions pour conserver un style authentique, premium et naturel.
-- SEO Réseaux Sociaux 2026 : Intégrer les mots-clés de recherche intentionnelle directement dans les phrases de la description.
-- Hashtags : Exactement 5 hashtags ultra-ciblés.`;
-
-export async function POST(req: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const body = await req.json();
-    const {
-      store_name,
-      category,
-      product_name,
-      price_xaf,
-      product_description,
-      location,
-      product_url,
-    } = body;
+    const body = await request.json();
+    
+    // Support both camelCase and snake_case parameters
+    const storeName = body.storeName || body.store_name || "Boutique Officielle";
+    const category = body.category || "Alimentation & Terroir";
+    const productName = body.productName || body.product_name;
+    const priceXaf = Number(body.priceXaf || body.price_xaf) || 0;
+    const productDescription = body.productDescription || body.product_description || "";
+    const location = body.location || "Libreville, Gabon";
+    const productUrl = body.productUrl || body.product_url || "https://nexora.ga";
 
-    if (!product_name) {
+    if (!productName) {
       return NextResponse.json(
         { error: "Le nom du produit est obligatoire." },
         { status: 400 }
       );
     }
 
+    const systemPrompt = `
+Tu es un stratège de croissance e-commerce d'élite.
+Génère un kit de vente percutant pour ce produit.
+Règles strictes :
+1. AUCUN emoji dans l'ensemble de la réponse (textes 100% humanisés et sobres).
+2. Fournis 3 accroches distinctes (Erreur coûteuse, Résultat concret, Différenciation).
+3. Rédige un script vidéo de 30-45 secondes structuré (Hook, Problème, Preuve, Call To Action vers le lien Nexora).
+4. Rédige une description SEO optimisée réseaux sociaux 2026.
+5. Fournis exactement 5 hashtags pertinents sans espaces.
+
+Réponds UNIQUEMENT sous forme d'un objet JSON valide ayant cette structure exacte :
+{
+  "hooks": ["Accroche 1", "Accroche 2", "Accroche 3"],
+  "videoScript": {
+    "hook": "...",
+    "problem": "...",
+    "proof": "...",
+    "cta": "..."
+  },
+  "seoDescription": "...",
+  "hashtags": ["#tag1", "#tag2", "#tag3", "#tag4", "#tag5"]
+}
+`;
+
+    const userPrompt = `
+Boutique: ${storeName}
+Catégorie: ${category}
+Produit: ${productName}
+Prix: ${priceXaf} FCFA
+Description: ${productDescription}
+Localisation: ${location}
+Lien: ${productUrl}
+`;
+
     const apiKey =
-      process.env.AI_API_KEY ||
+      process.env.OPENAI_API_KEY ||
       process.env.GEMINI_API_KEY ||
-      process.env.OPENAI_API_KEY;
+      process.env.AI_API_KEY;
 
-    let aiGeneratedContent: any = null;
+    let aiResult = null;
 
-    // Optional LLM execution if API Key is configured
+    // 1. Try direct LLM call if API key exists
     if (apiKey) {
       try {
         if (apiKey.startsWith("AIzaSy") || process.env.GEMINI_API_KEY) {
-          // Google Gemini API call
+          // Google Gemini API
           const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
           const res = await fetch(geminiUrl, {
             method: "POST",
@@ -58,23 +77,22 @@ export async function POST(req: NextRequest) {
                   role: "user",
                   parts: [
                     {
-                      text: `${SYSTEM_PROMPT}\n\nDonnées du produit:\n${JSON.stringify(
-                        body,
-                        null,
-                        2
-                      )}`,
+                      text: `${systemPrompt}\n\n${userPrompt}\n\nRéponds UNIQUEMENT avec le JSON demandé sans balises markdown.`,
                     },
                   ],
                 },
               ],
             }),
           });
-          const data = await res.json();
-          const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (rawText) aiGeneratedContent = rawText;
+          const geminiData = await res.json();
+          const rawText = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (rawText) {
+            const cleaned = rawText.replace(/```json/g, "").replace(/```/g, "").trim();
+            aiResult = JSON.parse(cleaned);
+          }
         } else {
-          // OpenAI API call
-          const res = await fetch("https://api.openai.com/v1/chat/completions", {
+          // OpenAI API
+          const response = await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -82,40 +100,59 @@ export async function POST(req: NextRequest) {
             },
             body: JSON.stringify({
               model: "gpt-4o-mini",
+              response_format: { type: "json_object" },
               messages: [
-                { role: "system", content: SYSTEM_PROMPT },
-                { role: "user", content: JSON.stringify(body) },
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userPrompt },
               ],
               temperature: 0.7,
             }),
           });
-          const data = await res.json();
-          aiGeneratedContent = data?.choices?.[0]?.message?.content;
+          const aiData = await response.json();
+          if (aiData?.choices?.[0]?.message?.content) {
+            aiResult = JSON.parse(aiData.choices[0].message.content);
+          }
         }
       } catch (err) {
-        console.warn("AI LLM call fallback to algorithmic coach:", err);
+        console.warn("LLM API execution fallback to local engine:", err);
       }
     }
 
-    // Always generate structured deterministic kit
-    const structuredKit = SocialGrowthCoach.generateKit({
-      storeName: store_name || "Boutique Officielle",
-      category: category || "Alimentation & Terroir",
-      productName: product_name,
-      priceXaf: Number(price_xaf) || 0,
-      productDescription: product_description || "",
-      location: location || "Libreville, Gabon",
-      productUrl: product_url || "https://nexora.ga",
-    });
+    // 2. Deterministic Structured Fallback (100% uptime guarantee)
+    if (!aiResult || !aiResult.hooks || !aiResult.videoScript) {
+      const kit = SocialGrowthCoach.generateKit({
+        storeName,
+        category,
+        productName,
+        priceXaf,
+        productDescription,
+        location,
+        productUrl,
+      });
 
-    return NextResponse.json({
-      success: true,
-      kit: structuredKit,
-      rawAiOutput: aiGeneratedContent,
-    });
-  } catch (e: any) {
+      aiResult = {
+        hooks: [
+          kit.hooks.costlyMistake,
+          kit.hooks.concreteResult,
+          kit.hooks.directComparison,
+        ],
+        videoScript: {
+          hook: kit.videoScript.hook,
+          problem: kit.videoScript.problemAndDemo,
+          proof: kit.videoScript.proofAndDifferentiation,
+          cta: kit.videoScript.callToAction,
+        },
+        seoDescription: kit.seoDescription,
+        hashtags: kit.hashtags,
+        shareLinks: kit.shareLinks,
+      };
+    }
+
+    return NextResponse.json(aiResult);
+  } catch (error) {
+    console.error("Erreur Seller Coach API:", error);
     return NextResponse.json(
-      { error: e?.message || "Erreur interne lors de la génération du kit." },
+      { error: "Échec de la génération du kit marketing" },
       { status: 500 }
     );
   }
