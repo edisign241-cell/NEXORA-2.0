@@ -28,7 +28,9 @@ import {
   KeyRound,
   ExternalLink,
   ChevronRight,
+  User,
 } from "lucide-react";
+import { UserDrawer } from "@/components/navigation/UserDrawer";
 
 interface DeliveryMission {
   id: string;
@@ -101,6 +103,7 @@ const INITIAL_AVAILABLE_MISSIONS: DeliveryMission[] = [
 
 export default function CourierDashboardPage() {
   const [isOnDuty, setIsOnDuty] = React.useState(true);
+  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<"available" | "active" | "earnings">("available");
   const [availableMissions, setAvailableMissions] = React.useState<DeliveryMission[]>([]);
   const [activeMission, setActiveMission] = React.useState<DeliveryMission | null>(null);
@@ -203,6 +206,16 @@ export default function CourierDashboardPage() {
             >
               <Power className={`w-4 h-4 ${isOnDuty ? "animate-pulse text-white" : ""}`} />
               <span>{isOnDuty ? "EN SERVICE" : "HORS SERVICE"}</span>
+            </Button>
+
+            <Button
+              onClick={() => setIsDrawerOpen(true)}
+              variant="outline"
+              size="sm"
+              className="gap-1.5 font-semibold text-xs"
+            >
+              <User className="w-3.5 h-3.5 text-slate-600" />
+              <span>Mon Profil</span>
             </Button>
           </div>
         </div>
@@ -738,6 +751,7 @@ export default function CourierDashboardPage() {
         )}
       </main>
 
+      <UserDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
       <CartDrawer />
       <LocationModal />
     </div>

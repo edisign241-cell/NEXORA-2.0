@@ -85,7 +85,7 @@ function LoginForm() {
       if (role === "vendor" || role === "vendeur") router.push("/dashboard/vendor");
       else if (role === "courier" || role === "livreur") router.push("/dashboard/courier");
       else if (role === "admin") router.push("/dashboard/admin");
-      else router.push("/");
+      else router.push("/dashboard/customer");
       router.refresh();
     }, 400);
   };

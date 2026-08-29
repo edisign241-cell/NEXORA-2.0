@@ -55,7 +55,7 @@ export function Navbar({ onSearch }: { onSearch?: (query: string) => void }) {
     if (isVendor) return "/dashboard/vendor";
     if (isCourier) return "/dashboard/courier";
     if (isAdmin) return "/dashboard/admin";
-    return "/dashboard";
+    return "/dashboard/customer";
   };
 
   return (

@@ -24,13 +24,16 @@ import {
   Sparkles,
   MapPin,
   PackageOpen,
+  User,
 } from "lucide-react";
 import { AdminCooControl } from "@/components/dashboard/admin-coo-control";
+import { UserDrawer } from "@/components/navigation/UserDrawer";
 
 export default function AdminDashboardPage() {
   const [stores, setStores] = useState<Store[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
     async function loadAdminData() {
@@ -94,6 +97,15 @@ export default function AdminDashboardPage() {
                 <span>Vue Livreur</span>
               </Button>
             </Link>
+            <Button
+              onClick={() => setIsDrawerOpen(true)}
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-xs font-bold"
+            >
+              <User className="w-4 h-4 text-purple-600" />
+              <span>Profil Admin</span>
+            </Button>
           </div>
         </div>
 
@@ -231,6 +243,7 @@ export default function AdminDashboardPage() {
         </div>
       </main>
 
+      <UserDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
       <CartDrawer />
       <LocationModal />
     </div>

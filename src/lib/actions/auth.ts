@@ -13,7 +13,7 @@ export interface AuthActionResult {
 }
 
 /**
- * Sign in with Email and Password
+ * Sign in with Email and Password & Redirect to role dashboard
  */
 export async function signInWithPassword(
   formData: FormData
@@ -31,7 +31,7 @@ export async function signInWithPassword(
     return {
       success: true,
       message: "Connexion réussie (Mode démonstration).",
-      redirectUrl: redirectTo || "/dashboard",
+      redirectUrl: redirectTo || "/dashboard/customer",
     };
   }
 
@@ -59,15 +59,28 @@ export async function signInWithPassword(
       return { success: false, error: "Impossible de récupérer votre profil." };
     }
 
-    // Determine target dashboard based on role
-    const role = (data.user.user_metadata?.role as UserRole) || "client";
+    // Determine target dashboard based on public.profiles or user_metadata
+    let role = (data.user.user_metadata?.role as string) || "customer";
+    try {
+      const { data: profileData } = await (supabase.from("profiles") as any)
+        .select("role")
+        .eq("id", data.user.id)
+        .single();
+      if (profileData?.role) {
+        role = profileData.role;
+      }
+    } catch {
+      // Use user_metadata fallback
+    }
+
+    const normRole = role.toLowerCase();
     let targetUrl = redirectTo;
 
     if (!targetUrl) {
-      if (role === "vendor" || role === "vendeur") targetUrl = "/dashboard/vendor";
-      else if (role === "courier" || role === "livreur") targetUrl = "/dashboard/courier";
-      else if (role === "admin") targetUrl = "/dashboard/admin";
-      else targetUrl = "/";
+      if (normRole === "vendor" || normRole === "vendeur") targetUrl = "/dashboard/vendor";
+      else if (normRole === "courier" || normRole === "livreur") targetUrl = "/dashboard/courier";
+      else if (normRole === "admin" || normRole === "superadmin") targetUrl = "/dashboard/admin";
+      else targetUrl = "/dashboard/customer";
     }
 
     revalidatePath("/", "layout");
@@ -103,17 +116,22 @@ export async function signUp(formData: FormData): Promise<AuthActionResult> {
     return { success: false, error: "Le mot de passe doit comporter au moins 6 caractères." };
   }
 
+  const normRole = role.toLowerCase();
+  const targetDashboard =
+    normRole === "vendor" || normRole === "vendeur"
+      ? "/dashboard/vendor"
+      : normRole === "courier" || normRole === "livreur"
+      ? "/dashboard/courier"
+      : normRole === "admin"
+      ? "/dashboard/admin"
+      : "/dashboard/customer";
+
   if (!isServerSupabaseConfigured) {
-    // Demo mode: Return success and redirect
+    // Demo mode: Return success and redirect directly to role dashboard
     return {
       success: true,
       message: "Compte créé avec succès (Mode Démonstration).",
-      redirectUrl:
-        role === "vendor"
-          ? "/dashboard/vendor"
-          : role === "courier"
-          ? "/dashboard/courier"
-          : "/",
+      redirectUrl: targetDashboard,
     };
   }
 
@@ -123,17 +141,17 @@ export async function signUp(formData: FormData): Promise<AuthActionResult> {
     const userMetadata: Record<string, string> = {
       full_name: fullName,
       phone,
-      role,
+      role: normRole,
     };
 
-    if (role === "vendor" && storeName) {
+    if ((normRole === "vendor" || normRole === "vendeur") && storeName) {
       userMetadata.store_name = storeName;
-      userMetadata.store_category = storeCategory || "Général";
+      userMetadata.store_category = storeCategory || "Mode & Beauté";
       if (district) userMetadata.district = district;
       if (addressLandmark) userMetadata.address_landmark = addressLandmark;
     }
 
-    if (role === "courier" && vehicleType) {
+    if ((normRole === "courier" || normRole === "livreur") && vehicleType) {
       userMetadata.vehicle_type = vehicleType;
     }
 
@@ -155,26 +173,37 @@ export async function signUp(formData: FormData): Promise<AuthActionResult> {
       return { success: false, error: error.message };
     }
 
-    // Determine target dashboard
-    let targetUrl = "/";
-    if (role === "vendor") targetUrl = "/dashboard/vendor";
-    else if (role === "courier") targetUrl = "/dashboard/courier";
+    // Direct insertion backup to guarantee public.profiles synchronization
+    if (data.user?.id) {
+      try {
+        await (supabase.from("profiles") as any).upsert({
+          id: data.user.id,
+          email,
+          full_name: fullName,
+          phone,
+          role: normRole === "vendor" || normRole === "vendeur" ? "vendor" : normRole === "courier" || normRole === "livreur" ? "courier" : "customer",
+          updated_at: new Date().toISOString(),
+        });
+      } catch (profileErr) {
+        console.warn("Profil auto-insert fallback handled by trigger:", profileErr);
+      }
+    }
 
     revalidatePath("/", "layout");
 
-    // If confirmation email is required
+    // If email confirmation is strictly enforced in Supabase Auth settings
     if (data.user && !data.session) {
       return {
         success: true,
-        message: "Compte créé ! Veuillez vérifier vos emails pour confirmer votre inscription.",
-        redirectUrl: `/auth/login?registered=true&email=${encodeURIComponent(email)}`,
+        message: "Compte créé ! Redirection vers votre tableau de bord...",
+        redirectUrl: targetDashboard,
       };
     }
 
     return {
       success: true,
       message: "Bienvenue sur Nexora Gabon !",
-      redirectUrl: targetUrl,
+      redirectUrl: targetDashboard,
     };
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Erreur lors de la création du compte.";

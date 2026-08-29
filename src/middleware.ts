@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // If Supabase is not configured (demo/prototype mode), allow easy navigation while keeping UX intact
+  // If Supabase is not configured (demo/prototype mode), allow easy navigation
   if (!isMiddlewareSupabaseConfigured) {
     return NextResponse.next();
   }
@@ -22,14 +22,19 @@ export async function middleware(request: NextRequest) {
   const { response, user, role } = await updateSession(request);
 
   const isAuthRoute = pathname.startsWith("/auth/login") || pathname.startsWith("/auth/register");
+  const isCustomerRoute = pathname.startsWith("/dashboard/customer");
   const isVendorRoute = pathname.startsWith("/dashboard/vendor");
   const isCourierRoute = pathname.startsWith("/dashboard/courier");
   const isAdminRoute = pathname.startsWith("/dashboard/admin");
+  const isDashboardIndex = pathname === "/dashboard" || pathname === "/dashboard/";
   const isProtectedGeneralRoute = pathname.startsWith("/account") || pathname === "/checkout";
+
+  // Normalize role
+  const normalizedRole = (role || "customer").toLowerCase();
 
   // 1. Unauthenticated users trying to access protected routes
   if (!user) {
-    if (isVendorRoute || isCourierRoute || isAdminRoute || isProtectedGeneralRoute) {
+    if (isCustomerRoute || isVendorRoute || isCourierRoute || isAdminRoute || isDashboardIndex || isProtectedGeneralRoute) {
       const redirectUrl = new URL("/auth/login", request.url);
       redirectUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(redirectUrl);
@@ -37,40 +42,60 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  // 2. Authenticated user visiting auth login/register pages -> redirect to appropriate dashboard
-  if (isAuthRoute) {
-    if (role === "vendor") {
+  // 2. Authenticated user visiting /dashboard directly -> redirect to role-specific dashboard
+  if (isDashboardIndex) {
+    if (normalizedRole === "vendor" || normalizedRole === "vendeur") {
       return NextResponse.redirect(new URL("/dashboard/vendor", request.url));
     }
-    if (role === "courier") {
+    if (normalizedRole === "courier" || normalizedRole === "livreur") {
       return NextResponse.redirect(new URL("/dashboard/courier", request.url));
     }
-    if (role === "admin") {
+    if (normalizedRole === "admin" || normalizedRole === "superadmin") {
       return NextResponse.redirect(new URL("/dashboard/admin", request.url));
     }
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/dashboard/customer", request.url));
   }
 
-  // 3. Role-Based Access Control (RBAC)
-  if (isVendorRoute && role !== "vendor" && role !== "admin") {
-    const unauthorizedUrl = new URL("/unauthorized", request.url);
-    unauthorizedUrl.searchParams.set("required", "vendeur");
-    unauthorizedUrl.searchParams.set("current", role || "client");
-    return NextResponse.redirect(unauthorizedUrl);
+  // 3. Authenticated user visiting auth login/register pages -> redirect to appropriate dashboard
+  if (isAuthRoute) {
+    if (normalizedRole === "vendor" || normalizedRole === "vendeur") {
+      return NextResponse.redirect(new URL("/dashboard/vendor", request.url));
+    }
+    if (normalizedRole === "courier" || normalizedRole === "livreur") {
+      return NextResponse.redirect(new URL("/dashboard/courier", request.url));
+    }
+    if (normalizedRole === "admin" || normalizedRole === "superadmin") {
+      return NextResponse.redirect(new URL("/dashboard/admin", request.url));
+    }
+    return NextResponse.redirect(new URL("/dashboard/customer", request.url));
   }
 
-  if (isCourierRoute && role !== "courier" && role !== "admin") {
-    const unauthorizedUrl = new URL("/unauthorized", request.url);
-    unauthorizedUrl.searchParams.set("required", "livreur");
-    unauthorizedUrl.searchParams.set("current", role || "client");
-    return NextResponse.redirect(unauthorizedUrl);
+  // 4. Strict Role-Based Access Control (RBAC)
+  // Non-vendor visiting vendor dashboard
+  if (isVendorRoute && normalizedRole !== "vendor" && normalizedRole !== "vendeur" && normalizedRole !== "admin") {
+    if (normalizedRole === "courier" || normalizedRole === "livreur") {
+      return NextResponse.redirect(new URL("/dashboard/courier", request.url));
+    }
+    return NextResponse.redirect(new URL("/dashboard/customer", request.url));
   }
 
-  if (isAdminRoute && role !== "admin") {
-    const unauthorizedUrl = new URL("/unauthorized", request.url);
-    unauthorizedUrl.searchParams.set("required", "admin");
-    unauthorizedUrl.searchParams.set("current", role || "client");
-    return NextResponse.redirect(unauthorizedUrl);
+  // Non-courier visiting courier dashboard
+  if (isCourierRoute && normalizedRole !== "courier" && normalizedRole !== "livreur" && normalizedRole !== "admin") {
+    if (normalizedRole === "vendor" || normalizedRole === "vendeur") {
+      return NextResponse.redirect(new URL("/dashboard/vendor", request.url));
+    }
+    return NextResponse.redirect(new URL("/dashboard/customer", request.url));
+  }
+
+  // Non-admin visiting admin dashboard
+  if (isAdminRoute && normalizedRole !== "admin" && normalizedRole !== "superadmin") {
+    if (normalizedRole === "vendor" || normalizedRole === "vendeur") {
+      return NextResponse.redirect(new URL("/dashboard/vendor", request.url));
+    }
+    if (normalizedRole === "courier" || normalizedRole === "livreur") {
+      return NextResponse.redirect(new URL("/dashboard/courier", request.url));
+    }
+    return NextResponse.redirect(new URL("/dashboard/customer", request.url));
   }
 
   return response;

@@ -36,6 +36,8 @@ import {
 } from "lucide-react";
 import { SocialCoachModal } from "@/components/dashboard/social-coach-modal";
 import { SocialGrowthCoach } from "@/lib/services/social-coach";
+import { UserDrawer } from "@/components/navigation/UserDrawer";
+import { User } from "lucide-react";
 
 interface VendorOrder {
   id: string;
@@ -137,6 +139,7 @@ export default function VendorDashboardPage() {
   const [mediaList, setMediaList] = React.useState<MediaItem[]>(DEFAULT_MEDIA_ITEMS);
   const [isAdding, setIsAdding] = React.useState(false);
   const [formSuccess, setFormSuccess] = React.useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 
   // Order status actions
   const handleUpdateOrderStatus = (
@@ -274,6 +277,15 @@ export default function VendorDashboardPage() {
                 <ExternalLink className="w-3.5 h-3.5 ml-1" />
               </Button>
             </Link>
+            <Button
+              onClick={() => setIsDrawerOpen(true)}
+              variant="outline"
+              size="sm"
+              className="gap-1.5 font-semibold text-xs"
+            >
+              <User className="w-3.5 h-3.5 text-slate-600" />
+              <span>Mon Profil</span>
+            </Button>
             <Button
               onClick={() => {
                 setActiveTab("products");
@@ -952,6 +964,7 @@ export default function VendorDashboardPage() {
         )}
       </main>
 
+      <UserDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
       <CartDrawer />
       <LocationModal />
     </div>
