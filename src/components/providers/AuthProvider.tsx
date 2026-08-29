@@ -69,15 +69,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return fallbackProfile;
       }
 
+      const rawData = data as any;
       const normalizedProfile: UserProfile = {
-        id: data.id,
-        email: data.email,
-        full_name: data.full_name,
-        phone: data.phone,
-        role: (data.role as UserRole) || "client",
-        avatar_url: data.avatar_url,
-        created_at: data.created_at,
-        updated_at: data.updated_at,
+        id: rawData.id,
+        email: rawData.email,
+        full_name: rawData.full_name,
+        phone: rawData.phone,
+        role: (rawData.role as UserRole) || "client",
+        avatar_url: rawData.avatar_url,
+        created_at: rawData.created_at,
+        updated_at: rawData.updated_at,
       };
 
       setProfile(normalizedProfile);

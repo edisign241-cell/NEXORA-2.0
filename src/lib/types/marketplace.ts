@@ -3,7 +3,7 @@
  * Tailored for Gabonese e-commerce & localized logistics
  */
 
-export type UserRole = "client" | "vendeur" | "livreur" | "admin";
+export type UserRole = "client" | "vendeur" | "livreur" | "admin" | "customer" | "vendor" | "courier";
 
 export type PaymentMethod =
   | "airtel_money"

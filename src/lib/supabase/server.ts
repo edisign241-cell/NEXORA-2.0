@@ -86,10 +86,11 @@ export async function getServerUser() {
       .eq("id", user.id)
       .single();
 
+    const profileData = profile as any;
     return {
       user,
-      profile,
-      role: profile?.role || (user.user_metadata?.role as string) || "customer",
+      profile: profileData,
+      role: profileData?.role || (user.user_metadata?.role as string) || "customer",
     };
   } catch {
     return { user: null, profile: null, role: null };

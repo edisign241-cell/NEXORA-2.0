@@ -103,7 +103,7 @@ export const nexoraApi = {
       if (error || !data || data.length === 0) {
         return { data: getFallbackDistricts(city), error: null };
       }
-      return { data: data.map((d) => d.district_name), error: null };
+      return { data: (data as any[]).map((d) => d.district_name as string), error: null };
     } catch {
       return { data: getFallbackDistricts(city), error: null };
     }

@@ -59,7 +59,7 @@ export async function updateSession(request: NextRequest) {
           .select("role")
           .eq("id", user.id)
           .single();
-        role = profile?.role || "customer";
+        role = (profile as any)?.role || "customer";
       }
     }
 

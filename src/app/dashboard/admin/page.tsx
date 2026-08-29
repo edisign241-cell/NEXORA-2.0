@@ -28,7 +28,7 @@ export default function AdminDashboardPage() {
   const [stores, setStores] = useState(MOCK_STORES);
   const [orders, setOrders] = useState(MOCK_ORDERS);
 
-  const totalVolume = orders.reduce((acc, o) => acc + o.total_amount, 0);
+  const totalVolume = orders.reduce((acc, o) => acc + (o.totalAmount || 0), 0);
   const marketplaceCommission = totalVolume * 0.05;
 
   return (
@@ -132,7 +132,7 @@ export default function AdminDashboardPage() {
                     <p className="font-bold text-slate-900 text-sm">{store.nom}</p>
                     <p className="text-[11px] text-slate-500 flex items-center gap-1">
                       <MapPin className="w-3 h-3 text-[#065f46]" />
-                      <span>{store.quartier}, {store.ville}</span>
+                      <span>{store.location?.quartier || "Quartier"}, {store.location?.ville || "Libreville"}</span>
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -164,13 +164,13 @@ export default function AdminDashboardPage() {
                     <div className="flex items-center gap-2">
                       <span className="font-mono font-bold text-slate-900">#{order.id.slice(0, 8)}</span>
                       <span className="text-[10px] uppercase font-black px-1.5 py-0.5 rounded bg-emerald-100 text-[#065f46]">
-                        {order.payment_method === "airtel_money" ? "Airtel Money" : "Moov Money"}
+                        {order.paymentMethod === "airtel_money" ? "Airtel Money" : "Moov Money"}
                       </span>
                     </div>
-                    <p className="text-[11px] text-slate-500">{order.delivery_district}, {order.delivery_city}</p>
+                    <p className="text-[11px] text-slate-500">{order.deliveryLocation?.quartier || "Libreville"}, {order.deliveryLocation?.ville || "Estuaire"}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-black text-slate-900 text-sm">{formatFCFA(order.total_amount)}</p>
+                    <p className="font-black text-slate-900 text-sm">{formatFCFA(order.totalAmount || 0)}</p>
                     <span className="text-[10px] font-semibold text-emerald-700 capitalize">
                       {order.status === "pending" ? "En attente" : order.status}
                     </span>
