@@ -30,10 +30,10 @@ export default function AccountPage() {
   const { selectedLocation, setLocation } = useUserStore();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [fullName, setFullName] = useState(profile?.full_name || "Tatiana Mengue");
-  const [phone, setPhone] = useState(profile?.phone || selectedLocation.telephone || "+241 077 45 89 12");
-  const [district, setDistrict] = useState(selectedLocation.quartier || "Nzeng-Ayong");
-  const [landmark, setLandmark] = useState(selectedLocation.repere_texte || "Face pharmacie, grand portail vert");
+  const [fullName, setFullName] = useState(profile?.full_name || user?.user_metadata?.full_name || "");
+  const [phone, setPhone] = useState(profile?.phone || user?.user_metadata?.phone || selectedLocation.telephone || "");
+  const [district, setDistrict] = useState(selectedLocation.quartier || "Centre-Ville");
+  const [landmark, setLandmark] = useState(selectedLocation.repere_texte || "");
   const [savedSuccess, setSavedSuccess] = useState(false);
 
   const handleSave = (e: React.FormEvent) => {

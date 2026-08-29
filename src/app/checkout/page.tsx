@@ -53,17 +53,17 @@ export default function CheckoutPage() {
   }, []);
 
   // Recipient form state
-  const [fullName, setFullName] = React.useState(user?.nom || "Ndong Mba Marc");
-  const [phone, setPhone] = React.useState(selectedLocation?.telephone || "+241 077 45 89 12");
+  const [fullName, setFullName] = React.useState(user?.nom || "");
+  const [phone, setPhone] = React.useState(selectedLocation?.telephone || "");
   const [provinceId, setProvinceId] = React.useState("estuaire");
   const [villeName, setVilleName] = React.useState(selectedLocation?.ville || "Libreville");
-  const [quartierName, setQuartierName] = React.useState(selectedLocation?.quartier || "Nzeng-Ayong");
+  const [quartierName, setQuartierName] = React.useState(selectedLocation?.quartier || "Louis");
   const [isCustomDistrict, setIsCustomDistrict] = React.useState(false);
   const [customDistrictName, setCustomDistrictName] = React.useState("");
   const [landmark, setLandmark] = React.useState(
-    selectedLocation?.repere_texte || "Face pharmacie de Nzeng-Ayong, grand portail vert à 50m du carrefour GP"
+    selectedLocation?.repere_texte || ""
   );
-  const [instructions, setInstructions] = React.useState("Appeler dès que vous arrivez au carrefour");
+  const [instructions, setInstructions] = React.useState("");
 
   // Payment state
   const [selectedPayment, setSelectedPayment] = React.useState<PaymentMethod>("airtel_money");

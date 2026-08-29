@@ -28,14 +28,14 @@ export function RoleSwitcher() {
     {
       id: "client",
       label: "Client (Acheteur)",
-      description: "Ndong Marc • Libreville (Nzeng-Ayong)",
+      description: "Commandes & livraisons à votre repère",
       icon: <ShoppingBag className="w-4 h-4" />,
       color: "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300",
     },
     {
       id: "vendeur",
       label: "Vendeur (Boutique)",
-      description: "Tatiana Mengue • Saveurs du Terroir",
+      description: "Gestion catalogue, stocks & ventes",
       href: "/dashboard/vendor",
       icon: <Store className="w-4 h-4" />,
       color: "border-amber-500 bg-amber-50 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300",
@@ -43,7 +43,7 @@ export function RoleSwitcher() {
     {
       id: "livreur",
       label: "Livreur (Coursier)",
-      description: "Yannick Obame • Moto Express Libreville",
+      description: "Missions & courses par repères visuels",
       href: "/dashboard/courier",
       icon: <Truck className="w-4 h-4" />,
       color: "border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300",
@@ -51,7 +51,7 @@ export function RoleSwitcher() {
     {
       id: "admin",
       label: "Administrateur",
-      description: "Superviseur Nexora Gabon",
+      description: "Supervision centrale & flux Gabon",
       icon: <ShieldAlert className="w-4 h-4" />,
       color: "border-purple-500 bg-purple-50 text-purple-700 dark:bg-purple-950/50 dark:text-purple-300",
     },

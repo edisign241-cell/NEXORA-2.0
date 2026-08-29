@@ -11,15 +11,15 @@ import { ProductCard } from "@/components/marketplace/product-card";
 import { ProductModal } from "@/components/marketplace/product-modal";
 import { CartDrawer } from "@/components/marketplace/cart-drawer";
 import { LocationModal } from "@/components/marketplace/location-modal";
-import { MOCK_STORES, MOCK_PRODUCTS } from "@/lib/constants/mock-data";
-import { Product } from "@/lib/types/marketplace";
+import { Store, Product } from "@/lib/types/marketplace";
+import { nexoraApi } from "@/lib/supabase/client";
 import { useUserStore } from "@/store/use-user-store";
 import { useCartStore } from "@/store/use-cart-store";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Sparkles,
-  Store,
+  Store as StoreIcon,
   ShoppingBag,
   ShieldCheck,
   Truck,
@@ -30,9 +30,14 @@ import {
   Home,
   User,
   Zap,
+  PackageOpen,
+  PlusCircle,
 } from "lucide-react";
 
 export default function HomePage() {
+  const [stores, setStores] = React.useState<Store[]>([]);
+  const [products, setProducts] = React.useState<Product[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedProductForModal, setSelectedProductForModal] = React.useState<Product | null>(null);
@@ -43,6 +48,17 @@ export default function HomePage() {
 
   React.useEffect(() => {
     setMounted(true);
+    async function loadData() {
+      setIsLoading(true);
+      const [storesRes, productsRes] = await Promise.all([
+        nexoraApi.getStores(),
+        nexoraApi.getProducts(),
+      ]);
+      setStores(storesRes.data || []);
+      setProducts(productsRes.data || []);
+      setIsLoading(false);
+    }
+    loadData();
   }, []);
 
   const cartItemsCount = mounted ? items.reduce((sum, item) => sum + item.quantity, 0) : 0;
@@ -60,7 +76,7 @@ export default function HomePage() {
 
   // Filter products by category and search query
   const filteredProducts = React.useMemo(() => {
-    return MOCK_PRODUCTS.filter((product) => {
+    return products.filter((product) => {
       const matchCategory =
         !selectedCategory ||
         product.categorie.includes(selectedCategory as any) ||
@@ -77,7 +93,7 @@ export default function HomePage() {
         product.description.toLowerCase().includes(searchQuery.toLowerCase());
       return matchCategory && matchSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [products, selectedCategory, searchQuery]);
 
   return (
     <div className="min-h-screen bg-[#f9fafb] text-[#111827] flex flex-col justify-between font-sans font-medium pb-20 md:pb-0">
@@ -114,7 +130,7 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div>
               <div className="flex items-center gap-2">
-                <Store className="w-5 h-5 text-[#065f46]" />
+                <StoreIcon className="w-5 h-5 text-[#065f46]" />
                 <h2 className="text-xl sm:text-2xl font-black italic text-[#111827]">
                   Boutiques populaires près de vous
                 </h2>
@@ -132,11 +148,33 @@ export default function HomePage() {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-            {MOCK_STORES.map((store) => (
-              <StoreCard key={store.id} store={store} />
-            ))}
-          </div>
+          {stores.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-slate-200 bg-white/60 p-8 text-center space-y-3 dark:border-slate-800">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#065f46] flex items-center justify-center mx-auto">
+                <StoreIcon className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-base font-bold text-slate-900">
+                  Aucune boutique enregistrée pour le moment dans cette zone
+                </p>
+                <p className="text-xs text-slate-500 max-w-md mx-auto">
+                  Les commerçants de Libreville et des provinces rejoignent Nexora. Vous êtes vendeur ? Créez votre boutique officielle en quelques minutes !
+                </p>
+              </div>
+              <Link href="/auth/register">
+                <Button size="sm" className="bg-[#065f46] hover:bg-[#044e3a] text-white gap-2 font-bold text-xs">
+                  <PlusCircle className="w-4 h-4" />
+                  <span>Ouvrir ma boutique sur Nexora</span>
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+              {stores.map((store) => (
+                <StoreCard key={store.id} store={store} />
+              ))}
+            </div>
+          )}
         </section>
 
         {/* Featured & Trending Products Grid Section */}
@@ -170,21 +208,38 @@ export default function HomePage() {
           </div>
 
           {filteredProducts.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-slate-300 p-12 text-center space-y-3 dark:border-slate-800">
-              <ShoppingBag className="w-8 h-8 text-slate-400 mx-auto" />
-              <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                Aucun produit ne correspond à votre sélection
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setSelectedCategory(null);
-                  setSearchQuery("");
-                }}
-              >
-                Réinitialiser les filtres
-              </Button>
+            <div className="rounded-2xl border border-dashed border-slate-200 bg-white/60 p-12 text-center space-y-4 dark:border-slate-800">
+              <div className="w-14 h-14 rounded-2xl bg-amber-50 text-[#d97706] flex items-center justify-center mx-auto">
+                <PackageOpen className="w-7 h-7" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-base font-bold text-slate-900">
+                  {selectedCategory ? "Aucun article dans cette catégorie pour le moment" : "Aucun article disponible pour le moment"}
+                </p>
+                <p className="text-xs text-slate-500 max-w-md mx-auto">
+                  Le catalogue est en cours d'alimentation par nos marchands partenaires. Revenez très vite ou explorez d'autres catégories !
+                </p>
+              </div>
+              <div className="flex items-center justify-center gap-3">
+                {selectedCategory && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setSelectedCategory(null);
+                      setSearchQuery("");
+                    }}
+                    className="text-xs font-bold"
+                  >
+                    Voir tous les rayons
+                  </Button>
+                )}
+                <Link href="/auth/register">
+                  <Button size="sm" className="bg-[#065f46] hover:bg-[#044e3a] text-white gap-2 font-bold text-xs">
+                    <span>Publier un article</span>
+                  </Button>
+                </Link>
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 sm:gap-6">
@@ -311,7 +366,7 @@ export default function HomePage() {
           onClick={handleStoresClick}
           className="flex flex-col items-center gap-1 text-slate-500 hover:text-emerald-600"
         >
-          <Store className="w-5 h-5" />
+          <StoreIcon className="w-5 h-5" />
           <span className="text-[10px] font-semibold">Boutiques</span>
         </button>
 

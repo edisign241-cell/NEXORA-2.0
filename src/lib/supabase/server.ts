@@ -1,7 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { Database } from "@/lib/types/database";
-import { MOCK_STORES, MOCK_PRODUCTS, MOCK_ORDERS } from "@/lib/constants/mock-data";
+import { Store, Product, Order } from "@/lib/types/marketplace";
+import { mapDbStoreToStore, mapDbProductToProduct } from "./client";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -98,11 +99,11 @@ export async function getServerUser() {
 }
 
 /**
- * Server Data Fetchers with Mock Fallback
+ * Real Server Data Fetchers (Without mock data fallback)
  */
-export async function getServerStores() {
+export async function getServerStores(): Promise<{ data: Store[]; error: Error | null }> {
   if (!isServerSupabaseConfigured) {
-    return { data: MOCK_STORES, error: null };
+    return { data: [], error: null };
   }
   try {
     const supabase = await createClient();
@@ -110,51 +111,84 @@ export async function getServerStores() {
       .from("stores")
       .select("*")
       .order("rating", { ascending: false });
-    if (error || !data || data.length === 0) {
-      return { data: MOCK_STORES, error: null };
+
+    if (error) {
+      return { data: [], error: new Error(error.message) };
     }
-    return { data, error: null };
-  } catch {
-    return { data: MOCK_STORES, error: null };
+    return { data: (data || []).map(mapDbStoreToStore), error: null };
+  } catch (err: any) {
+    return { data: [], error: err instanceof Error ? err : new Error("Erreur de chargement") };
   }
 }
 
-export async function getServerProducts(storeId?: string) {
+export async function getServerProducts(storeId?: string): Promise<{ data: Product[]; error: Error | null }> {
   if (!isServerSupabaseConfigured) {
-    let products = [...MOCK_PRODUCTS];
-    if (storeId) products = products.filter((p) => p.storeId === storeId);
-    return { data: products, error: null };
+    return { data: [], error: null };
   }
   try {
     const supabase = await createClient();
-    let query = supabase.from("products").select("*").eq("is_active", true);
+    let query = supabase.from("products").select("*, stores(name)").eq("is_active", true);
     if (storeId) query = query.eq("store_id", storeId);
     const { data, error } = await query;
-    if (error || !data || data.length === 0) {
-      let products = [...MOCK_PRODUCTS];
-      if (storeId) products = products.filter((p) => p.storeId === storeId);
-      return { data: products, error: null };
+
+    if (error) {
+      return { data: [], error: new Error(error.message) };
     }
-    return { data, error: null };
-  } catch {
-    return { data: MOCK_PRODUCTS, error: null };
+    return { data: (data || []).map(mapDbProductToProduct), error: null };
+  } catch (err: any) {
+    return { data: [], error: err instanceof Error ? err : new Error("Erreur de chargement") };
   }
 }
 
-export async function getServerOrders() {
+export async function getServerOrders(): Promise<{ data: Order[]; error: Error | null }> {
   if (!isServerSupabaseConfigured) {
-    return { data: MOCK_ORDERS, error: null };
+    return { data: [], error: null };
   }
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("orders")
       .select("*, order_items(*)");
-    if (error || !data || data.length === 0) {
-      return { data: MOCK_ORDERS, error: null };
+
+    if (error) {
+      return { data: [], error: new Error(error.message) };
     }
-    return { data, error: null };
-  } catch {
-    return { data: MOCK_ORDERS, error: null };
+    // Map db orders to frontend Order interface if needed
+    const mappedOrders: Order[] = (data || []).map((o: any) => ({
+      id: o.id,
+      orderNumber: `NEX-241-${o.id.slice(0, 6).toUpperCase()}`,
+      clientId: o.customer_id,
+      clientName: "Client Nexora",
+      clientPhone: o.delivery_phone || "+241",
+      storeIds: [o.store_id],
+      items: (o.order_items || []).map((item: any) => ({
+        id: item.id,
+        productId: item.product_id,
+        productTitle: "Article",
+        productPrice: item.unit_price_xaf,
+        productImage: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=200",
+        quantity: item.quantity,
+        storeId: o.store_id,
+        storeName: "Boutique",
+      })),
+      subtotalAmount: o.total_amount_xaf - o.delivery_fee_xaf,
+      deliveryFee: o.delivery_fee_xaf,
+      totalAmount: o.total_amount_xaf,
+      paymentMethod: o.payment_method,
+      paymentStatus: o.payment_status === "paid" ? "paid" : "pending",
+      status: o.status === "completed" ? "delivered" : "pending",
+      deliveryLocation: {
+        province: "Estuaire",
+        ville: o.delivery_city || "Libreville",
+        quartier: o.delivery_district || "Quartier",
+        repere_texte: o.delivery_address_landmark || "Repère visuel",
+      },
+      createdAt: o.created_at,
+      updatedAt: o.updated_at,
+    }));
+
+    return { data: mappedOrders, error: null };
+  } catch (err: any) {
+    return { data: [], error: err instanceof Error ? err : new Error("Erreur de chargement") };
   }
 }

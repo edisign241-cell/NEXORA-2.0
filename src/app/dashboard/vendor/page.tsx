@@ -13,7 +13,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { formatFCFA } from "@/lib/utils";
 import { ProductCategory, Product } from "@/lib/types/marketplace";
-import { MOCK_PRODUCTS } from "@/lib/constants/mock-data";
 import {
   Store as StoreIcon,
   TrendingUp,
@@ -120,11 +119,9 @@ const DEFAULT_MEDIA_ITEMS: MediaItem[] = [
 ];
 
 export default function VendorDashboardPage() {
-  const [activeTab, setActiveTab] = React.useState<"products" | "orders" | "finances">("orders");
-  const [orders, setOrders] = React.useState<VendorOrder[]>(INITIAL_VENDOR_ORDERS);
-  const [productsList, setProductsList] = React.useState<Product[]>(
-    MOCK_PRODUCTS.filter((p) => p.storeId === "store-1")
-  );
+  const [activeTab, setActiveTab] = React.useState<"products" | "orders" | "finances">("products");
+  const [orders, setOrders] = React.useState<VendorOrder[]>([]);
+  const [productsList, setProductsList] = React.useState<Product[]>([]);
 
   // New product form state
   const [showAddForm, setShowAddForm] = React.useState(false);
@@ -388,12 +385,23 @@ export default function VendorDashboardPage() {
               </span>
             </div>
 
-            <div className="space-y-4">
-              {orders.map((ord) => (
-                <Card
-                  key={ord.id}
-                  className="overflow-hidden border-slate-200/80 bg-white dark:bg-slate-900 dark:border-slate-800 shadow-sm"
-                >
+            {orders.length === 0 ? (
+              <Card className="border border-dashed border-slate-200 bg-white/60 p-12 text-center space-y-3 dark:border-slate-800">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#065f46] flex items-center justify-center mx-auto">
+                  <ShoppingBag className="w-6 h-6" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900">Aucune commande en attente</h3>
+                <p className="text-xs text-slate-500 max-w-md mx-auto">
+                  Dès qu&apos;un client passe une commande pour vos articles, elle apparaîtra ici avec son point de repère de livraison et son statut de paiement.
+                </p>
+              </Card>
+            ) : (
+              <div className="space-y-4">
+                {orders.map((ord) => (
+                  <Card
+                    key={ord.id}
+                    className="overflow-hidden border-slate-200/80 bg-white dark:bg-slate-900 dark:border-slate-800 shadow-sm"
+                  >
                   <div className="p-5 space-y-4">
                     {/* Top Row: Order ID, Time, Badge */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
@@ -528,8 +536,9 @@ export default function VendorDashboardPage() {
                 </Card>
               ))}
             </div>
-          </div>
-        )}
+          )}
+        </div>
+      )}
 
         {/* TAB 2: PRODUCTS MANAGEMENT & ADD FORM */}
         {activeTab === "products" && (
@@ -687,22 +696,43 @@ export default function VendorDashboardPage() {
             )}
 
             {/* Products Table */}
-            <Card className="border-slate-200/80 bg-white dark:bg-slate-900 dark:border-slate-800 shadow-sm overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-500 uppercase tracking-wider font-semibold border-b border-slate-200 dark:border-slate-800">
-                    <tr>
-                      <th className="p-4">Article</th>
-                      <th className="p-4">Médias</th>
-                      <th className="p-4">Catégorie</th>
-                      <th className="p-4">Prix Public</th>
-                      <th className="p-4">Stock</th>
-                      <th className="p-4">Statut</th>
-                      <th className="p-4 text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
-                    {productsList.map((prod) => (
+            {productsList.length === 0 ? (
+              <Card className="border border-dashed border-slate-200 bg-white/60 p-12 text-center space-y-4 dark:border-slate-800">
+                <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-[#065f46] flex items-center justify-center mx-auto">
+                  <Package className="w-7 h-7" />
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-base font-bold text-slate-900">Vous n&apos;avez pas encore de produit en ligne</h3>
+                  <p className="text-xs text-slate-500 max-w-md mx-auto">
+                    Publiez vos premiers articles avec photos, vidéos et prix en FCFA pour commencer à recevoir des commandes.
+                  </p>
+                </div>
+                <Button
+                  onClick={() => setShowAddForm(true)}
+                  size="sm"
+                  className="bg-[#065f46] hover:bg-[#044e3a] text-white gap-2 font-bold text-xs"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Ajouter mon premier produit</span>
+                </Button>
+              </Card>
+            ) : (
+              <Card className="border-slate-200/80 bg-white dark:bg-slate-900 dark:border-slate-800 shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs">
+                    <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-500 uppercase tracking-wider font-semibold border-b border-slate-200 dark:border-slate-800">
+                      <tr>
+                        <th className="p-4">Article</th>
+                        <th className="p-4">Médias</th>
+                        <th className="p-4">Catégorie</th>
+                        <th className="p-4">Prix Public</th>
+                        <th className="p-4">Stock</th>
+                        <th className="p-4">Statut</th>
+                        <th className="p-4 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                      {productsList.map((prod) => (
                       <tr key={prod.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40">
                         <td className="p-4 flex items-center gap-3">
                           <img
@@ -784,8 +814,9 @@ export default function VendorDashboardPage() {
                 </table>
               </div>
             </Card>
-          </div>
-        )}
+          )}
+        </div>
+      )}
 
         {/* TAB 3: FINANCES & MOBILE MONEY PAYOUTS */}
         {activeTab === "finances" && (
