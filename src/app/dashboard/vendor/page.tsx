@@ -34,6 +34,7 @@ import {
   Film,
   Image as ImageIcon,
 } from "lucide-react";
+import { SocialCoachModal } from "@/components/dashboard/social-coach-modal";
 
 interface VendorOrder {
   id: string;
@@ -122,6 +123,7 @@ export default function VendorDashboardPage() {
   const [activeTab, setActiveTab] = React.useState<"products" | "orders" | "finances">("products");
   const [orders, setOrders] = React.useState<VendorOrder[]>([]);
   const [productsList, setProductsList] = React.useState<Product[]>([]);
+  const [selectedCoachProduct, setSelectedCoachProduct] = React.useState<any | null>(null);
 
   // New product form state
   const [showAddForm, setShowAddForm] = React.useState(false);
@@ -799,7 +801,17 @@ export default function VendorDashboardPage() {
                             </span>
                           )}
                         </td>
-                        <td className="p-4 text-right">
+                        <td className="p-4 text-right flex items-center justify-end gap-2">
+                          <Button
+                            onClick={() => setSelectedCoachProduct(prod)}
+                            variant="outline"
+                            size="sm"
+                            className="h-7 text-[11px] font-bold gap-1 text-[#065f46] border-emerald-200 bg-emerald-50/50 hover:bg-emerald-100"
+                            title="Générer le Kit de Vente Réseaux Sociaux"
+                          >
+                            <Sparkles className="w-3 h-3 text-amber-500" />
+                            <span>Kit Vente IA</span>
+                          </Button>
                           <button
                             onClick={() => setProductsList((prev) => prev.filter((p) => p.id !== prod.id))}
                             className="p-1.5 text-slate-400 hover:text-rose-600 transition-colors"
@@ -894,6 +906,20 @@ export default function VendorDashboardPage() {
               </CardContent>
             </Card>
           </div>
+        )}
+
+        {selectedCoachProduct && (
+          <SocialCoachModal
+            isOpen={Boolean(selectedCoachProduct)}
+            onClose={() => setSelectedCoachProduct(null)}
+            product={{
+              name: selectedCoachProduct.nom || selectedCoachProduct.name || "Article",
+              price: selectedCoachProduct.prix || selectedCoachProduct.price_xaf || 0,
+              description: selectedCoachProduct.description,
+              category: selectedCoachProduct.categorie || selectedCoachProduct.category,
+              slug: selectedCoachProduct.slug,
+            }}
+          />
         )}
       </main>
 
